@@ -36,14 +36,7 @@ namespace :vlad do
     set :current_user, `git config --get user.name`.strip
   end
   
-  task :notify_hoptoad => [:git_user, :git_revision] do
-    notify_command = "rake hoptoad:deploy TO=#{rails_env} REVISION=#{current_sha} REPO=#{repository} USER='#{current_user}'"
-    puts "Notifying Hoptoad of Deploy (#{notify_command})"
-    `#{notify_command}`
-    puts "Hoptoad Notification Complete."
-  end
-  
   desc "Full deployment cycle"
-  task :deploy => [:update, :migrate, :start_app, :notify_hoptoad]
+  task :deploy => [:update, :migrate, :start_app]
 end
 
