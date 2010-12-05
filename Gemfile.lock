@@ -12,6 +12,7 @@ GEM
     activeresource (2.3.10)
       activesupport (= 2.3.10)
     activesupport (2.3.10)
+    haml (3.0.24)
     justinfrench-formtastic (0.2.4)
     mbleigh-seed-fu (1.2.1)
       rails (>= 2.1)
@@ -33,6 +34,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  haml (= 3.0.24)
   justinfrench-formtastic (= 0.2.4)
   mbleigh-seed-fu (= 1.2.1)
   peterpunk-mhash (= 0.0.8)
