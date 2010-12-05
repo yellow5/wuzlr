@@ -93,10 +93,14 @@
 <div id="footer">
 	<div class="wrapper clear">
 		<div class="g6">
-			<p>Built on caffine, sushi &amp; minimal kip within two english days, for railsrumble 2009. Lovingly rushed together by <a href="http://twitter.com/fatelvis">fat</a><a href="http://twitter.com/kernowsoul">ker</a><a href="http://twitter.com/theozaurus">sarus</a></p>
+      <p>
+        All your <%= link_to("wuzlr", "http://github.com/yellow5/wuzlr", :target => "_blank") %> are belong to us!
+        Kept alive and updated with love by
+        <% ['yellow5', 'matt_mueller', 'levicole'].each_with_index do |handle, i| -%><%= (i == 0 ? "" : ", ") + link_to(handle, "http://twitter.com/#{handle}", :target => "_blank") %><% end -%>.
+        Props to the original <%= link_to("wuzlr", "https://github.com/kernow/wuzlr", :target => "_blank") %>!
+      </p>
 		</div>
 		<div class="g25 m1">
-			<a href="http://r09.railsrumble.com/teams/the-wuzels"><img src="/images/banner.jpg" alt="vote for wuzlr, we'll hug you"/></a>
 		</div>
 	</div>
 </div>
