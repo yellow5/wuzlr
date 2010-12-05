@@ -23,8 +23,8 @@ class League < ActiveRecord::Base
   end
   
   def matches_per_day
-    format = "%Y %b %d"
-    results = matches.count(:group => "DATE_FORMAT(started_at, '#{format}')")
+    format = "%Y %m %d"
+    results = matches.count(:group => "strftime('#{format}', started_at)")
     results.map{|k,v| [DateTime.strptime(k,format),v] }.sort_by{|e| e[0]}
   end
   
