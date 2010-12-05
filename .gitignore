@@ -3,3 +3,4 @@ log
 tmp
 *.sqlite3
 .rvmrc
+config/setup_load_paths.rb
