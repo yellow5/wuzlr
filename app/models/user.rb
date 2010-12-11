@@ -106,11 +106,11 @@ class User < ActiveRecord::Base
   end
   
   def lost_per_day
-    match_stats.lost.count(:group => "DATE_FORMAT(matches.started_at, '%Y %b %d')", :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
+    match_stats.lost.count(:group => "strftime('%Y-%m-%d', matches.started_at)", :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
   end
   
   def won_per_day
-    match_stats.won.count(:group => "DATE_FORMAT(matches.started_at, '%Y %b %d')", :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
+    match_stats.won.count(:group => "strftime('%Y-%m-%d', matches.started_at)", :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
   end
   
   def number_matches_against(user)
