@@ -29,9 +29,9 @@
 <body class="homer">
 <div class="pre_header">
 	<div class="wrapper clear">
-	  <% unless signed_in? %>
+	  <% unless user_signed_in? %>
 		  <div class="p">
-			  <span><%= link_to "Sign in", sign_in_path %> | <%= link_to "Forgot password?", new_password_path %></span>
+			  <span><%= link_to "Sign in", new_user_session_path %> | <%= link_to "Forgot password?", new_user_password_path %></span>
 		  </div>
 		<% end %>
 	</div>
@@ -42,10 +42,10 @@
 			<div class="g22">
 				<h2 class="clear"><span>What is wuzler? Wuzler tracks your table football shiznee. Create leagues, track stats &amp; arrange matches
 		wuzler does it all, with a cheeky smile</span></h2>
-		  <% if signed_in? %>
+		  <% if user_signed_in? %>
 		    <%= link_to "My profile", user_path(current_user), :class => 'hairylee' %>
 		  <% else %>
-		    <%= link_to "Sign me up guv", sign_up_path, :class => 'hairylee' %>
+		    <%= link_to "Sign me up guv", new_user_registration_path, :class => 'hairylee' %>
 		  <% end %>
 			</div>
 	</div>

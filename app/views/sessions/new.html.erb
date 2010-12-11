@@ -1,6 +1,6 @@
 <% @subheader = "Sign in" %>
 
-<% semantic_form_for :session, :url => session_path do |form| %>
+<% semantic_form_for resource_name, resource, :url => session_path(resource_name) do |form| %>
   <% form.inputs do %>
     <%= form.input :email %>
     <%= form.input :password, :as => :password %>
@@ -11,13 +11,4 @@
   <% end %>
 <% end %>
 
-<ul class="doitlikebritney">
-	<li><hr/></li>
-  <li>
-    <%= link_to "Sign up", new_user_path %>
-  </li>
-  <li>
-    <%= link_to "Forgot password?", new_password_path %>
-  </li>
-</ul>
-
+<%= render :partial => "shared/devise_links" %>

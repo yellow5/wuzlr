@@ -1,6 +1,6 @@
 class MatchesController < ApplicationController
   
-  before_filter :authenticate
+  before_filter :authenticate_user!
   
   # GET /leagues/1/matches/1
   def show

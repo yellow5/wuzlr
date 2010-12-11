@@ -102,7 +102,7 @@ li#session_remember_me_input label {
 	vertical-align: middle;
 }
 
-li#session_remember_me_input input {
+li#user_remember_me_input input {
 	background: none;
 	border: 0;
 	width:16px;
@@ -120,11 +120,16 @@ li#session_remember_me_input input {
 	font-size: 12px;
 	margin-left: 12px;
 	border-left: 0;
+	border-right: 1px solid #ccc;
+	padding-right:12px;
 }
 
 .doitlikebritney li:last-child {
-	border-left: 1px solid #ccc;
-	padding-left:12px;
+	border-right: 0;
+}
+
+.doitlikebritney li:first-child {
+	border: 0;
 }
 
 .doitlikebritney li a {

@@ -97,12 +97,20 @@ ActiveRecord::Schema.define(:version => 20090823180308) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email"
-    t.string   "encrypted_password",     :limit => 128
-    t.string   "salt",                   :limit => 128
-    t.string   "token",                  :limit => 128
-    t.datetime "token_expires_at"
-    t.boolean  "email_confirmed",                       :default => false, :null => false
+    t.string   "email",                                 :default => "",  :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "",  :null => false
+    t.string   "password_salt",                         :default => "",  :null => false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                         :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
@@ -116,9 +124,5 @@ ActiveRecord::Schema.define(:version => 20090823180308) do
     t.integer  "longest_losing_streak",                 :default => 0
     t.float    "win_loss_percentage",                   :default => 0.0
   end
-
-  add_index "users", ["email"], :name => "index_users_on_email"
-  add_index "users", ["id", "token"], :name => "index_users_on_id_and_token"
-  add_index "users", ["token"], :name => "index_users_on_token"
 
 end

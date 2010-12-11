@@ -4,7 +4,7 @@
   We will email you a link to reset your password.
 </p>
 
-<% semantic_form_for :password, :url => passwords_path do |form| -%>
+<% semantic_form_for resource_name, resource, :url => password_path(resource_name) do |form| -%>
   <% form.inputs do -%>
     <%= form.input :email, :label => "Email address" %>
   <% end -%>
@@ -13,3 +13,4 @@
   <% end -%>
 <% end -%>
 
+<%= render :partial => "shared/devise_links" %>

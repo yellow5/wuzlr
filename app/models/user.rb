@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   
-  include Clearance::User
+  devise :database_authenticatable, :confirmable, :recoverable, :registerable, :rememberable, :trackable, :validatable
   
   has_many :league_players, :foreign_key => "player_id"
   has_many :leagues, :through => :league_players
@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
     
   validates_presence_of :name
   attr_accessible :name
+  attr_accessible :email
+  attr_accessible :password
     
   def win_p
     if played > 0

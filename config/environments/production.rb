@@ -29,4 +29,6 @@ config.action_view.cache_template_loading            = true
 
 ActionMailer::Base.delivery_method = :sendmail
 
+config.action_mailer.default_url_options = { :host => 'wuzlr.com' }
+
 HOST = "wuzlr.com"

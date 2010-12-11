@@ -2,7 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  include Clearance::Authentication
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
@@ -11,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :leagues, :wup_wup_playaz
   
   def leagues
-    @leagues = current_user.leagues if signed_in?
+    @leagues = current_user.leagues if user_signed_in?
   end
   
   def wup_wup_playaz
@@ -19,5 +18,5 @@ class ApplicationController < ActionController::Base
   end
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
 end

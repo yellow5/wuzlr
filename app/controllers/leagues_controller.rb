@@ -1,7 +1,6 @@
 class LeaguesController < ApplicationController
   
-  before_filter :authenticate, :only => [:new, :create]
-  # before_filter :is_owner?, :only => [:edit, :update]
+  before_filter :authenticate_user!, :only => [:new, :create]
   
   # GET /leagues
   def index
