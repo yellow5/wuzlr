@@ -1,0 +1,70 @@
+!!!
+%html{:lang => "en-gb"}
+  %title Wuzlr, get wuzlin' baby
+  %head{:profile => "http://gmpg.org/xfn/11"}
+    %link{:href => "http://wuzlr.com/images/favicon.png", :rel => "shortcut icon", :type => "image/png"}/
+    / Link basic styling for older browsers
+    %link{:href => "/stylesheets/reset.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/stylesheets/squeezebox.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}/
+    = stylesheet_link_tag 'compiled/screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'compiled/print.css', :media => 'print'
+    %script{:src => "http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/mootools-1.2.3.1-more.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/sorting_table.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/paginating_table.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/swfobject.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/cufon-yui.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/museo.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/application.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/squeezebox.js", :type => "text/javascript"}
+  %body
+    .wrapper
+      #header
+        %h1.logo
+          %a{:href => "/", :rel => "home"} Wuzlr
+      #content.clear
+        #bulk.g18
+          .headit.clear
+            %h2= @header || @user.try(:name) || @league.try(:name) || "Wuzlr, get wuzlin' baby"
+            - if @subheader
+              %h3= @subheader
+            %hr/
+          = render :partial => 'layouts/flashes'
+          = yield
+        #aside.g10.m3
+          %ul.logger.clear
+            %li
+              %a#nav_toggler{:href => "javascript:;"}
+                %span.toggler= user_signed_in? ? current_user.name : 'Join in the fun!'
+              - if user_signed_in?
+                %ul#nav
+                  %li.account= link_to 'Account', edit_user_registration_path
+                  %li.profile= link_to 'My profile', user_path(current_user)
+                  %li.signout= link_to 'Signout', destroy_user_session_path
+              - else
+                %ul#nav-visible
+                  %li.signin= link_to 'Sign in',  new_user_session_path
+                  %li.signup= link_to 'Sign up',  new_user_registration_path
+          - if user_signed_in?
+            .widget.clear
+              %h3.iconize Your leagues
+              .listed.clear
+                = render :partial => @leagues
+                = link_to '<span>Create a new league</span>', new_league_path, :class => "add clear" if user_signed_in?
+          .widget.clear
+            %h3 S'all 'bout form baby
+            %p Players with beastly recent form
+            %ul.display_form.clear
+              - @wup_wup_playaz.each do |playaplaya|
+                %li= link_to "#{gravatar_for_with_default playaplaya} #{win_loss_bar(playaplaya, :class => 'win_loss_bar')}", user_path(playaplaya), :title => playaplaya.name
+    #footer
+      .wrapper.clear
+        .g6
+          %p
+            All your #{link_to("wuzlr", "http://github.com/yellow5/wuzlr", :target => "_blank")} are belong to us!
+            Kept alive and updated with love by
+            - ['yellow5', 'matt_mueller', 'levicole'].each_with_index do |handle, i|
+              = (i == 0 ? "" : ", ") + link_to(handle, "http://twitter.com/#{handle}", :target => "_blank")
+            \.
+            Props to the original #{link_to("wuzlr", "https://github.com/kernow/wuzlr", :target => "_blank")}!
+        .g25.m1

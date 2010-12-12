@@ -1,0 +1,24 @@
+.heed
+  %h3.subsub Who's kicking who's arse?
+  %p Below are your head&ndash;to&ndash;head match-ups. Don't stand for getting whipped you big jessy, if your stats are down, pull you socks up matey.
+.clear
+.cop.clear
+  .compare_grav.clear
+    = link_to gravatar_for_with_default(@you, :size => 100), user_path(@you)
+    VS #{link_to gravatar_for_with_default(@them, :size => 100), user_path(@them)}
+  .cwrap
+    %ol#compare-labels
+      %li Win %
+      %li Loss %
+      %li Matches played
+      %li Dedication
+    %ol#compare-you.g8.m1
+      %li.wins= @you.win_p
+      %li.losses= @you.lose_p
+      %li.played{:rel => "percentize"}= @you.played
+      %li.dedication{:rel => "percentize"}= @you.time_playing
+    %ol#compare-them.g8.m1.inside
+      %li.wins= @them.win_p
+      %li.losses= @them.lose_p
+      %li.played{:rel => "percentize"}= @them.played
+      %li.dedication{:rel => "percentize"}= @them.time_playing

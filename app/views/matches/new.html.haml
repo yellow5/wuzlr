@@ -1,0 +1,21 @@
+- @header = "Create Match"
+.headit.clear
+  %h4 Select players
+  %p drag and drop team members to the pitch
+.contain.clear
+  %ul.display_roster.clear
+    - @players.each do |p|
+      %li
+        %a.draggable_player{:href => "javascript:;", :id => "player-#{p.id}"}= gravatar_for_with_default p, :size => 48, :title => p.name
+#pitch
+  #top.droppable
+  #bottom.droppable
+  %a#play_game.play_game{:href => "javascript:;"} Play game
+#lightmybox
+- form_tag league_matches_path(@league), :id => 'players_form' do
+  = error_messages_for 'match'
+  = @match.match_players.map{|p| p.errors.full_messages}
+  = hidden_field_tag 'red[1]'
+  = hidden_field_tag 'red[2]'
+  = hidden_field_tag 'blue[1]'
+  = hidden_field_tag 'blue[2]'

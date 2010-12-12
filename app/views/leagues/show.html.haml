@@ -1,0 +1,40 @@
+%span.newmatchup= link_to 'Edit this league', edit_league_path(@league) if @league.owner?(current_user)
+%span.newmatchup.clear= link_to 'Start a new match', new_league_match_path(@league) if @league.member_of?(current_user)
+.slapmabitchup
+  %p= @league.description
+- if @stats.empty?
+  %h3.ohno Oh no! - No match data yet
+  %p.ohno
+    = link_to "Invite", new_league_invite_path(@league)
+    some players, and #{link_to "start", new_league_match_path(@league)} a match
+- else
+  %table#fuckingsweet
+    %thead.sickass
+      %th.nosort
+      %th{:title => "Played matches"} Pld
+      %th{:title => "Won matches"} Won
+      %th{:title => "Lost matches"} Lst
+      %th.reverse_sort{:title => "Percentage of Wins"} Win %
+      %th{:title => "Winning Streak"} Wsk
+      %th{:title => "Losing Streak"} Lsk
+      %th.nosort{:title => "Equivalent Fifa Team"} Rank
+    - @stats.each_with_index do |s, i|
+      %tr.phatass
+        %td.youruglymug= link_to gravatar_for_with_default(s.user), user_path(s.user), :title => s.user.name
+        %td= s.played
+        %td= s.won
+        %td= s.lost
+        %td= s.win_percent.to_s + "%"
+        %td= s.longest_winning_streak
+        %td= s.longest_losing_streak
+        %td= team_flag_image_for s.user, i, @stats.size, @fifa_teams
+  %ul#sort_table_pagination
+- if @league.stats.size > 0
+  %hr/
+  %h3.subsub Matches per day
+  .charter.clear
+    = remote_graph("Matches per Day",{ :route => league_graphs_path( :league_id => @league, :action => :matches_per_day ), :width => "500px", :height => "300px"})
+  %hr/
+  %h3.subsub Table Bias
+  .charter.clear
+    = remote_graph("Table Bias",{ :route => league_graphs_path( :league_id => @league, :action => :table_bias ), :width => "500px", :height => "300px"})

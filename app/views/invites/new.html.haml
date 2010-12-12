@@ -1,0 +1,8 @@
+- @header = "Invite peep's to #{@league.name}"
+.invi
+  - form_tag league_invites_path(@league) do
+    - 5.times do |n|
+      %p
+        = label_tag "email_#{n}", "email"
+        = text_field '[emails]', "", :id => "email_#{n}"
+    = submit_tag 'Send invites'

@@ -1,0 +1,17 @@
+- @header = "Certificate"
+.grats
+  .massivewin
+    %h2 Conratulations dude that was epic
+    - @match.winners.each do |w|
+      %h3= link_to w.name, user_path(w)
+    %p
+      Print and present
+      %a{:href => "/images/loser.jpg"} this certificate
+      to the loser/s below
+  %hr/
+  .massivelose
+    %h2 Dude, what happened?
+    - @match.losers.each do |l|
+      %h4= link_to l.name, user_path(l)
+    %p Maybe some late night practice is in order
+= link_to "Back to the League", league_path(@league)

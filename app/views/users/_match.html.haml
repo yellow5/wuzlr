@@ -1,0 +1,14 @@
+.matchups.clear
+  = render :partial => "team", :locals => {:side => "left",  :match => match, :team => match.team_with(@user)   }
+  = render :partial => "team", :locals => {:side => "right", :match => match, :team => match.team_without(@user)}
+  %span.vs VS
+  .details
+    %span.ko
+      K.O:
+      %abbr.kickoff{:title => match.started_at.iso8601}
+        = time_ago_in_words match.started_at
+        ago
+    %span.du
+      Duration:
+      %abbr.duration{:title => "PT#{match.duration.min}M#{match.duration.sec}S"}
+        = distance_of_time_in_words match.started_at, match.finished_at

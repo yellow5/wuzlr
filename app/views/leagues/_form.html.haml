@@ -1,0 +1,10 @@
+- form_for(@league) do |f|
+  = f.error_messages
+  %p
+    = f.label :name
+    = f.text_field :name
+  %p
+    = f.label :description
+    = f.text_area :description
+  %p
+    = f.submit button_label

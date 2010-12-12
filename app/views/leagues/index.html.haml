@@ -1,0 +1,6 @@
+- @header = "My leagues"
+%ul.listed
+  - @leagues.each do |league|
+    %li
+      = link_to league.name, league_path(league)
+      = link_to 'edit', edit_league_path(league) if league.owner?(current_user)
