@@ -6,14 +6,11 @@
 <link rel="shortcut icon" href="http://wuzlr.com/images/favicon.png" type="image/png" />
 
 <!--Link basic styling for older browsers-->
-<link href="/stylesheets/basic.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/stylesheets/reset.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/stylesheets/squeezebox.css" rel="stylesheet" type="text/css" media="screen" />
     
-<!--Link before import prevents Flash Of Unstyled Content in ie6pc -->
-<style type="text/css">@import"/stylesheets/default.css"/**/;</style>
-
-<!--[if IE 7]><link rel="stylesheet" type="text/css" href="/stylesheets/ie7.css" media="screen" /><![endif]-->
-
-<!--[if IE 6]><link rel="stylesheet" type="text/css" href="/stylesheets/ie6.css" media="screen" /><![endif]-->
+<%= stylesheet_link_tag 'compiled/screen.css', :media => 'screen, projection' %>
+<%= stylesheet_link_tag 'compiled/print.css', :media => 'print' %>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js"></script>
 <script type="text/javascript" src="/javascripts/mootools-1.2.3.1-more.js"></script>
 <script type="text/javascript" src="/javascripts/sorting_table.js"></script>

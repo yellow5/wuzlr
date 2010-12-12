@@ -4,3 +4,4 @@ tmp
 *.sqlite3
 .rvmrc
 config/setup_load_paths.rb
+public/stylesheets/compiled/*

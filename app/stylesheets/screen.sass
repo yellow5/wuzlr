@@ -1,7 +1,968 @@
-/*
-  Welcome to Compass.
-  In this file you should write your main styles. (or centralize your imports)
-  Import this file using the following HTML or equivalent:
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+/* import CSS for compliant browsers*/
 
-@import compass/reset
+@import partials/typography.sass
+@import partials/970_32_10.sass
+@import partials/forms.sass
+@import partials/home.sass
+
+html, body
+  margin: 0
+  padding: 0
+
+html
+  image-rendering: -moz-crisp-edges
+  border-top: 3px solid rgba(33, 33, 33, 0.4)
+
+body
+  background: url(/images/grass-loop.jpg) #eeeeee repeat-x 0 -40px
+
+img
+  image-rendering: optimizeQuality
+  -ms-interpolation-mode: bicubic
+  &[src$=".gif"]
+    image-rendering: -moz-crisp-edges
+    -ms-interpolation-mode: nearest-neighbor
+
+/* applies to GIF images only */
+
+/*Skip Link - hidden until focused using the tab key. Great for mobile as you can skip to content */
+
+#skipLink
+  display: block
+  position: absolute
+  top: 0
+  left: -999px
+  height: 20px
+  padding: 10px 20px
+  background: white
+  &:focus, &:active
+    left: 0
+
+/***************************************
+ *Header
+ *****************************************/
+
+#header
+  margin-top: 50px
+  position: relative
+
+.logo
+  width: 157px
+  height: 157px
+  position: relative
+  top: 9px
+  z-index: 10
+  a
+    width: 157px
+    height: 157px
+    text-indent: -999em
+    overflow: hidden
+    background: url(/images/logo.png) transparent no-repeat 0 0
+    display: block
+
+/***************************************
+ *Content + Bulk
+ *****************************************/
+
+#content
+  position: relative
+  top: -70px
+  text-shadow: 0 1px 0 #fff
+
+#bulk
+  .headit
+    position: relative
+    h2, h3
+      text-align: right
+      line-height: 24px
+      width: 70%
+      position: relative
+      right: -155px
+    h2
+      font-size: 30px
+      letter-spacing: -1px
+      color: #d15432
+      font-weight: bold
+    h3
+      font-size: 26px
+      color: #e07a5f
+      font-weight: lighter
+    hr
+      margin-top: 40px
+      margin-bottom: 30px
+      width: 440px
+      position: relative
+      left: 43px
+  .contain
+    margin-top: 20px
+    float: right
+    margin-bottom: 20px
+    width: 110px
+  .headit h4
+    color: #2b2b2b
+    font-size: 22px
+    line-height: 18px
+  .contain p
+    font-size: 11px
+
+#pitch
+  float: right
+  background: url(/images/pitch.png) transparent no-repeat 0 -25px
+  width: 270px
+  height: 400px
+  margin-right: 30px
+  margin-top: 20px
+  position: relative
+  border: 1px solid #fff
+  -moz-box-shadow: 0 3px 3px #ddd
+  -webkit-box-shadow: 0 3px 3px #ddd
+  #top, #bottom
+    height: 50%
+  .play_game
+    position: absolute
+    left: 45px
+    top: 168px
+  &.pitchedit
+    position: relative
+    margin-right: 0
+
+#match_red_score, #match_blue_score
+  width: 30px
+  display: block
+  margin: 20px auto 0 auto
+  width: 105px
+  padding: 5px
+  color: #333
+  text-align: center
+  font-size: 14px
+
+#top .wee
+  margin: 14% auto 0 auto
+  width: 120px
+
+#bottom .wee
+  margin: 13% auto 0 auto
+  width: 120px
+
+.wee img + img
+  margin-left: 10px
+
+#pitch .pitchedit #bottom
+
+.gumph
+  float: left
+  margin-top: 20px
+  width: 180px
+  color: #333
+  p
+    color: #666
+  h3
+    margin-bottom: 20px
+
+.generic
+  text-align: right
+  margin-bottom: 40px
+  hr
+    margin-bottom: 30px
+
+.listed
+  display: block
+  float: right
+  clear: both
+  margin-top: 20px
+  margin-bottom: 20px
+  width: 80%
+  li
+    display: block
+    background: #dedede
+    border-bottom: 1px solid #ccc
+    border-top: 1px solid #eee
+    margin-bottom: 8px
+    position: relative
+    a
+      background: url(/images/icons/big/leagues.png) transparent no-repeat 10px center
+      text-align: right
+      padding: 10px
+      display: block
+      color: #333
+      padding-left: 50px
+      font-size: 14px
+      + a
+        background: rgba(0, 0, 0, 0.04)
+        display: block
+        padding-left: 10%
+        font-size: 11px
+      &:hover, &:focus, &:active
+        color: #d25c3c
+
+cite.newbie a
+  background-image: none
+  float: right
+  padding: 5px
+  position: relative
+  top: -8px
+  font-size: 11px
+  background: #ddd
+
+.add_peeps a
+  float: right
+  padding: 5px
+  position: relative
+  top: -8px
+  font-size: 11px
+  color: #333
+  background: #ddd
+  margin-bottom: 15px
+
+/***************************************
+ *Aside
+ *****************************************/
+
+#aside
+
+#nav, #nav-visible
+  padding: 5px
+  margin-bottom: 20px
+
+#nav li, #nav-visible li
+  line-height: 12px
+
+#aside
+  #nav li a, #nav-visible li a
+    color: #eee
+    text-shadow: 0 -1px 1px #222
+    font-size: 12px
+    padding: 5px
+    padding-top: 6px
+    padding-bottom: 6px
+    border-top: 1px solid #555
+    border-bottom: 1px solid #777
+    text-transform: lowercase
+    text-indent: 22px
+    display: block
+  #nav li.create a, #nav-visible li.create a
+    background: url(/images/icons/pencil.png) transparent no-repeat 3px center
+  #nav li.account a, #nav-visible li.account a
+    background: url(/images/icons/user.png) transparent no-repeat 3px center
+  #nav li.profile a, #nav-visible li.profile a
+    background: url(/images/icons/cog.png) transparent no-repeat 3px center
+  #nav li.signin a, #nav-visible li.signin a
+    background: url(/images/icons/arrow-right.png) transparent no-repeat 3px center
+  #nav li.signout a, #nav-visible li.signout a
+    background: url(/images/icons/rmv.png) transparent no-repeat 3px center
+  #nav li.signup a, #nav-visible li.signup a
+    background: url(/images/icons/users.png) transparent no-repeat 3px center
+  #nav li a
+    &:hover, &:focus, &:active
+      background-color: #333
+      cursor: pointer
+  #nav-visible li a
+    &:hover, &:focus, &:active
+      background-color: #333
+      cursor: pointer
+  .logger
+    float: right
+    clear: both
+    background: url(/images/gradients/grey.gif) #656a63 repeat-x bottom left
+    -moz-border-radius: 16px
+    -webkit-border-radius: 16px
+    -moz-box-shadow: 0px 3px 3px #888
+    -webkit-box-shadow: 0px 3px 3px #888
+    border: 2px solid rgba(220, 220, 220, 0.2)
+    margin-bottom: 30px
+    position: relative
+    right: -2px
+    min-width: 140px
+    a
+      padding: 15px 15px 0 15px
+      display: block
+      outline: none
+    .toggler
+      background: url(/images/arrows/arrow-toggle.png) transparent no-repeat center right
+      display: block
+      padding-right: 42px
+      color: #eee
+      text-shadow: 0 -1px 0 #000
+      text-transform: lowercase
+      font-size: 12px
+  h3
+    clear: both
+    text-align: right
+    font-size: 30px
+    letter-spacing: -1px
+    color: #d15432
+    margin-bottom: 10px
+
+.iconize
+  background: url(/images/paddle.png) transparent no-repeat 65px center
+
+#aside .widget
+  margin-bottom: 20px
+  clear: both
+  border-bottom: 1px solid #ccc
+  p
+    text-align: right
+    position: relative
+    top: -13px
+
+.add
+  background: url(/images/gradients/red.gif) #dedede repeat-x 0 0
+  clear: both
+  display: block
+  text-align: right
+  float: right
+  font-size: 12px
+  color: #eee
+  text-indent: 22px
+  margin-bottom: 20px
+  padding: 8px
+  -moz-border-radius: 22px
+  -webkit-border-radius: 16px
+  -moz-box-shadow: 0px 1px 1px #888
+  -webkit-box-shadow: 0px 1px 1px #888
+  text-shadow: 0 -1px 0 #333
+  span
+    background: url(/images/icons/add.png) transparent no-repeat 0 0
+    display: block
+
+.rmv
+  background: url(/images/gradients/chrome.gif) #dedede repeat-x 0 0
+  clear: both
+  display: block
+  text-align: right
+  float: right
+  font-size: 12px
+  color: #444
+  text-indent: 22px
+  margin-top: 5px
+  padding: 8px
+  -moz-border-radius: 22px
+  -webkit-border-radius: 16px
+  -moz-box-shadow: 0px 1px 1px #888
+  span
+    background: url(/images/icons/chart.png) transparent no-repeat 0 0
+    display: block
+
+.add
+  &:hover, &:focus, &:active
+    color: #fff
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+
+#aside .mal
+  width: 90%
+  margin-top: 10px
+  float: right
+  clear: both
+  span
+    background: none
+    display: block
+    position: relative
+    a
+      display: block
+      background: url(/images/gradients/chrome.gif) #eeeeee repeat-x bottom left
+      padding: 10px
+      text-align: right
+      border: 1px solid #fff
+  cite
+    display: block
+    margin-bottom: 10px
+    width: 75%
+    float: right
+    clear: both
+    font-size: 14px
+    padding-bottom: 10px
+    a
+      display: block
+
+cite
+  &.match
+    background: url(/images/icons/whistle.png) transparent no-repeat 0 0
+    display: block
+    text-indent: 30px
+    margin-top: 5px
+    border-bottom: 1px solid #ddd
+  &.invite
+    background: url(/images/icons/mail.png) transparent no-repeat 0 0
+    display: block
+    text-indent: 30px
+
+pre.icon
+  background: url(/images/icons/leagues.png) transparent no-repeat 0 0
+  display: block
+  position: absolute
+  height: 16px
+  width: 16px
+  text-indent: -999em
+  top: 14px
+  z-index: 3
+  margin-left: 8px
+
+/***************************************
+ *Win Loss
+ *****************************************/
+
+.win_loss_bar
+  height: 25px
+  padding-top: 5px
+  background: url(/images/gradients/mustard.gif) transparent repeat-x bottom right
+  position: relative
+  float: right
+  margin-right: 50px
+
+.display_form
+  display: block
+  margin-top: 30px
+  margin-left: 30px
+  li
+    position: relative
+    height: 70px
+    text-indent: 40px
+    font-size: 14px
+    a
+      display: block
+      color: #333
+    img
+      display: block
+      position: absolute
+      right: -10px
+      top: -10px
+      z-index: 10
+
+/***************************************
+ *Roster
+ *****************************************/
+
+.display_roster
+  float: right
+  display: block
+  position: relative
+  height: 420px
+  width: 140px
+  right: -35px
+  li
+    width: 40px
+    height: 40px
+    margin-right: 5px
+    display: inline
+    img
+      margin-bottom: 5px
+  .draggable_player
+    z-index: 500
+
+.more_toggle
+  float: right
+  display: block
+  clear: both
+  font-size: 11px
+  color: #444
+  padding: 4px 8px
+  -moz-border-radius: 22px
+  -webkit-border-radius: 22px
+  -moz-box-shadow: 0px 1px 1px #888
+  background: url(/images/gradients/chrome.gif) #dedede repeat-x 0 0
+  text-transform: lowercase
+  text-align: center
+
+/***************************************
+ *Buttons
+ *****************************************/
+
+.play_game
+  clear: both
+  background: url(/images/gradients/red.gif) #e45d0b repeat-x bottom left
+  -moz-border-radius: 16px
+  -webkit-border-radius: 16px
+  -moz-box-shadow: 0px 3px 3px #333
+  -webkit-box-shadow: 0px 3px 3px #333
+  border: 2px solid rgba(220, 220, 220, 0.2)
+  display: block
+  padding: 20px
+  color: #efefef
+  text-transform: uppercase
+  text-shadow: 0 -1px 1px #333
+  width: 50%
+  text-align: center
+  font-size: 18px
+
+.newmatchup a
+  clear: both
+  float: right
+  background: url(/images/gradients/red.gif) #e45d0b repeat-x bottom left
+  -moz-border-radius: 16px
+  -webkit-border-radius: 16px
+  -moz-box-shadow: 0px 3px 3px #333
+  -webkit-box-shadow: 0px 3px 3px #333
+  border: 2px solid rgba(220, 220, 220, 0.2)
+  display: block
+  padding: 10px
+  color: #efefef
+  text-transform: uppercase
+  text-shadow: 0 -1px 1px #333
+  width: 30%
+  text-align: center
+  font-size: 12px
+  margin-bottom: 30px
+  top: 0px
+  position: relative
+
+.play_game
+  &:hover, &:focus, &:active
+    cursor: pointer
+    background-position: 10px 50px
+    -moz-box-shadow: none
+    -webit-box-shadow: none
+    color: #fff
+
+.newmatchup a
+  &:hover, &:focus, &:active
+    cursor: pointer
+    background-position: 10px 50px
+    -moz-box-shadow: none
+    -webit-box-shadow: none
+    color: #fff
+
+/***************************************
+ *Flashes
+ *****************************************/
+
+#flash
+  position: relative
+  left: 120px
+  display: block
+  width: 440px
+  margin-bottom: 20px
+  text-shadow: none
+
+#flash_error, #errorExplanation, .errorExplanation, #flash_failure
+  color: #eee
+  padding: 5px
+  background: #bb3406
+
+#edit_match .errorExplanation
+  margin-bottom: 50px
+  clear: both
+
+#errorExplanation
+  text-shadow: 0 -1px 0 #333
+
+#flash_notice
+  color: #eee
+  padding: 5px
+  background: #caaa09
+
+#flash_success
+  color: #eee
+  padding: 5px
+  background: #bcc909
+
+#errorExplanation p
+  color: #fff
+
+/***************************************
+ *Fucking sweet table
+ *****************************************/
+
+#fuckingsweet
+  display: block
+  float: right
+  clear: both
+  font-size: 12px
+  width: 500px
+  margin-bottom: 20px
+  tr
+  th
+    width: 100px
+    &.forward_sort
+      background: url(/images/icons/up-arrow.gif) 90% center no-repeat
+    &.reverse_sort
+      background: url(/images/icons/down-arrow.gif) 90% center no-repeat
+    &.nosort
+      width: 100px
+      background-image: none
+
+.sickass
+  background: #333
+  color: #eee
+  text-shadow: none
+  th
+    padding: 5px 0
+    cursor: pointer
+
+.phatass
+  border-bottom: 1px solid #ddd
+  height: 90px
+  font-size: 18px
+  color: #333
+
+.youruglymug img
+  position: relative
+  display: block
+  top: 20px
+  border: 1px solid #fff
+  -moz-box-shadow: 0 3px 3px #ddd
+
+div.slapmabitchup
+  margin-bottom: 40px
+  clear: both
+
+/***************************************
+ *compare graph
+ *****************************************/
+
+.heed
+  width: 320px
+  float: right
+  clear: both
+  position: relative
+  top: -20px
+
+.cop
+  background: #efefef
+  padding: 10px
+  border: 3px solid #fff
+  -moz-box-shadow: 0 3px 3px #ddd
+  -webkit-box-shadow: 0 3px 3px #ddd
+  position: relative
+  right: -40px
+
+.compare_grav
+  margin-bottom: 20px
+  position: relative
+  top: -40px
+  font-size: 11px
+  left: 160px
+  img
+    position: relative
+    top: 40px
+
+.cwrap
+  clear: both
+  position: relative
+
+#compare-labels
+  position: absolute
+  left: 200px
+  background: #eee
+  color: #000000
+  opacity: 0.3
+  li
+    margin-bottom: 3px
+    text-align: center
+    text-transform: uppercase
+    padding: 0 5px
+
+#compare-you li
+  display: block
+  margin-bottom: 3px
+  float: right
+  clear: both
+  text-align: left
+  text-indent: -999em
+  color: #eee
+  text-shadow: 0 -1px 0 #333
+  padding-left: 6px
+
+#compare-them li
+  display: block
+  margin-bottom: 3px
+  float: left
+  clear: both
+  text-align: left
+  text-indent: -999em
+  color: #eee
+  text-shadow: 0 -1px 0 #333
+  padding-right: 6px
+
+/***************************************
+ *Flashy
+ *****************************************/
+
+.charter
+  clear: both
+  float: right
+  margin-bottom: 20px
+
+/***************************************
+ *Useful tit-bits
+ *****************************************/
+
+.last
+  margin-right: 0
+
+.height_fix
+  height: 1%
+
+.block
+  display: block
+
+.inline
+  display: inline
+
+.line_drop
+  padding-top: 12px
+
+.relative
+  position: relative
+
+.clear_left
+  clear: left
+
+hr
+  height: 0
+  border: 0
+  border-top: 2px solid #ddd
+  border-bottom: 1px solid #fff
+  clear: both
+
+.subsub.nudge
+  margin-bottom: 60px
+
+/***************************************
+ *Compares
+ *****************************************/
+
+.comparisons
+  margin-bottom: 30px
+  float: right
+  clear: both
+  h2
+    text-align: left
+    margin-bottom: 13px
+    text-transform: uppercase
+  .g8
+    background: url(/images/gradients/chrome.gif ) #eeeeee repeat-x bottom left
+    padding: 5px
+    width: 218px
+    border: 1px solid #fff
+    -moz-box-shadow: 0 3px 3px #ddd
+    -webkit-box-shadow: 0 3px 3px #ddd
+  dl
+    display: block
+    float: left
+    margin-left: 10px
+    font-size: 13px
+    color: #666
+  img
+    display: block
+    float: left
+
+/***************************************
+ *Tool Tips
+ *****************************************/
+
+.tool-tip
+  color: #fff
+  width: 139px
+  z-index: 13000
+  .tip-top
+    padding: 8px 8px 4px
+    background: #333
+    background: rgba(0, 0, 0, 0.7)
+  .tip
+    font-weight: bold
+    font-size: 11px
+    margin: 0
+    color: #9FD4FF
+    font-size: 11px
+    padding: 4px 8px 8px
+    background: #333
+    background: rgba(0, 0, 0, 0.7)
+  .tip-bottom
+    background: #333
+    background: rgba(0, 0, 0, 0.7)
+
+/***************************************
+ *Profile
+ *****************************************/
+
+.mabits
+  margin-bottom: 30px
+
+h3.subsub
+  margin-bottom: 20px
+  margin-top: 20px
+  clear: both
+
+.matchups
+  clear: both
+  margin-bottom: 50px
+  position: relative
+  .details
+    clear: both
+    color: #999
+    font-style: italic
+    span
+      display: inline
+      font-size: 11px
+      text-transform: uppercase
+  .team
+    float: left
+    &.blue
+      position: relative
+      display: block
+      background: url(/images/blu.png) transparent repeat 0 0
+      width: 50%
+    &.red
+      position: relative
+      display: block
+      background: url(/images/rouge.png) transparent repeat 0 0
+      width: 50%
+    img.gravatar
+      position: relative
+      margin-bottom: 20px
+      display: block
+      border: 1px solid #ddd
+    &.right img.gravatar
+      clear: both
+      left: 205px
+      top: 10px
+    &.left img.gravatar
+      left: 10px
+      top: 10px
+  .score
+    position: absolute
+    top: 25%
+    display: block
+    font-size: 28px
+    color: #fff
+    text-shadow: 0 -1px 0 #333
+    font-weight: 800
+  .left .score
+    left: 140px
+  .right .score
+    right: 140px
+
+.winner .winningisgood
+  height: 60px
+  width: 180px
+  background: url(/images/winner.png) transparent no-repeat 0 0
+  display: block
+  position: absolute
+  top: -40px
+  left: -15px
+
+.vs
+  position: absolute
+  background: #333
+  color: #eee
+  text-shadow: 0 -1px 0 #333
+  padding: 10px
+  font-size: 12px
+  left: 47%
+  top: 20%
+  z-index: 10
+  -moz-border-radius: 30px
+  -webkit-border-radius: 16px
+
+/***************************************
+ *Grats
+ *****************************************/
+
+.grats
+  width: 70%
+  float: right
+  h2
+    font-family: Georgia, Palatino, 'Palatino Linotype', 'Times New Roman', Times, serif
+    font-size: 32px
+    line-height: 30px
+    font-weight: 600
+    color: #C9753D
+    margin-bottom: 10px
+  .massivelose h2
+    font-family: Georgia, Palatino, 'Palatino Linotype', 'Times New Roman', Times, serif
+    font-size: 32px
+    line-height: 30px
+    font-weight: 600
+    color: #84C93D
+    margin-bottom: 10px
+  h3 a, h4 a
+    text-align: right
+    color: #333
+    font-size: 22px
+    display: block
+    font-size: 18px
+    margin-bottom: 0px
+    color: #777
+  + a
+    text-align: right
+    float: right
+    clear: both
+    display: block
+    margin-top: 20px
+  .massivewin
+    margin-bottom: 20px
+  .massivelose
+    margin-top: 20px
+  .massivewin p
+    background: url(/images/printer.png) transparent no-repeat 0 0
+    padding-top: 20px
+    padding-bottom: 10px
+  .massivelose p
+    padding-top: 20px
+    padding-bottom: 10px
+
+/***************************************
+ *CLock
+ *****************************************/
+
+#digital_clock
+  font-family: Courier, Monospace,  Arial, Helvetica
+  text-align: center
+  font-size: 42px
+
+#sbox-content .tim
+  background: url(/images/gradients/red.gif) #e45d0b repeat-x bottom left
+  border: 2px solid rgba(220, 220, 220, 0.2)
+  padding: 10px
+  width: 180px
+  color: #efefef
+  text-transform: uppercase
+  text-shadow: 0 -1px 1px #333
+  text-align: center
+  font-size: 18px
+  cursor: pointer
+  margin-top: 10px
+  -moz-border-radius: 16px
+  -webkit-border-radius: 16px
+  -moz-box-shadow: 0px 3px 3px #333
+  -webkit-box-shadow: 0px 3px 3px #333
+  position: relative
+  left: 80px
+
+/***************************************
+ *Footer
+ *****************************************/
+
+#footer
+  clear: both
+  background: #333
+  padding: 40px 0 80px
+  p
+    color: #ddd
+    font-size: 11px
+
+/***************************************
+ *404
+ *****************************************/
+
+body
+  &.ohfour
+    background: url(/images/sil.gif) transparent repeat 0 0
+    h1
+      background: #333
+      padding: 30px
+      color: #fff
+      margin-top: 60px
+    blink
+      text-align: right
+      display: block
+      padding: 0 30px
+    .logo
+      background: url(/images/home-logo.png) transparent no-repeat 0 0
+      height: 271px
+      width: 284px
+      position: absolute
+      top: -40px
+  &.fire
+    background-image: url(/images/fire.gif)
