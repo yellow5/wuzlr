@@ -54,7 +54,7 @@
           %ul#dedicated-graphs
             - @dedicated.each do |user|
               %li
-                = link_to "#{gravatar_for_with_default(user)} #{user.name}", user_path(user), :title => user.name
+                = link_to(raw("#{gravatar_for_with_default(user)} #{user.name}"), user_path(user), :title => user.name)
                 .games= user.played
     #footer
       .wrapper.clear
@@ -63,7 +63,6 @@
             All your #{link_to("wuzlr", "http://github.com/yellow5/wuzlr", :target => "_blank")} are belong to us!
             Kept alive and updated with love by
             - ['yellow5', 'matt_mueller', 'levicole'].each_with_index do |handle, i|
-              = (i == 0 ? "" : ", ") + link_to(handle, "http://twitter.com/#{handle}", :target => "_blank")
-            \.
+              = raw((i == 0 ? "" : ", ") + link_to(handle, "http://twitter.com/#{handle}", :target => "_blank"))
             Props to the original #{link_to("wuzlr", "https://github.com/kernow/wuzlr", :target => "_blank")}!
         .g25.m1

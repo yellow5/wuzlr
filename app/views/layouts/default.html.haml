@@ -49,14 +49,15 @@
             .widget.clear
               %h3.iconize Your leagues
               .listed.clear
-                = render :partial => @leagues
-                = link_to '<span>Create a new league</span>', new_league_path, :class => "add clear" if user_signed_in?
+                - @leagues.each do |league|
+                  = render :partial => "/leagues/league", :locals => { :league => league }
+                = link_to(raw('<span>Create a new league</span>'), new_league_path, :class => "add clear") if user_signed_in?
           .widget.clear
             %h3 S'all 'bout form baby
             %p Players with beastly recent form
             %ul.display_form.clear
               - @wup_wup_playaz.each do |playaplaya|
-                %li= link_to "#{gravatar_for_with_default playaplaya} #{win_loss_bar(playaplaya, :class => 'win_loss_bar')}", user_path(playaplaya), :title => playaplaya.name
+                %li= link_to(raw("#{gravatar_for_with_default playaplaya} #{win_loss_bar(playaplaya, :class => 'win_loss_bar')}"), user_path(playaplaya), :title => playaplaya.name)
     #footer
       .wrapper.clear
         .g6
@@ -64,7 +65,6 @@
             All your #{link_to("wuzlr", "http://github.com/yellow5/wuzlr", :target => "_blank")} are belong to us!
             Kept alive and updated with love by
             - ['yellow5', 'matt_mueller', 'levicole'].each_with_index do |handle, i|
-              = (i == 0 ? "" : ", ") + link_to(handle, "http://twitter.com/#{handle}", :target => "_blank")
-            \.
+              = raw((i == 0 ? "" : ", ") + link_to(handle, "http://twitter.com/#{handle}", :target => "_blank"))
             Props to the original #{link_to("wuzlr", "https://github.com/kernow/wuzlr", :target => "_blank")}!
         .g25.m1

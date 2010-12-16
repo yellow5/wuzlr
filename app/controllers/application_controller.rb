@@ -16,7 +16,4 @@ class ApplicationController < ActionController::Base
   def wup_wup_playaz
     @wup_wup_playaz = User.wup_wup_playaz
   end
-
-  # Scrub sensitive parameters from your log
-  filter_parameter_logging :password
 end

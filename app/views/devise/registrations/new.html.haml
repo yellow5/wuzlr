@@ -1,5 +1,5 @@
 - @subheader = "Sign up"
-- semantic_form_for resource_name, resource, :url => registration_path(resource_name) do |f|
+= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = f.error_messages
   - f.inputs do
     = f.input :name
@@ -8,4 +8,4 @@
     = f.input :password_confirmation, :as => :password
   - f.buttons do
     = f.commit_button "Sign up"
-= render :partial => "shared/devise_links"
+= render :partial => "devise/shared/links"

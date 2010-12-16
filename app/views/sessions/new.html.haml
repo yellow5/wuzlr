@@ -1,9 +1,0 @@
-- @subheader = "Sign in"
-- semantic_form_for resource_name, resource, :url => session_path(resource_name) do |form|
-  - form.inputs do
-    = form.input :email
-    = form.input :password, :as => :password
-    = form.input :remember_me, :as => :boolean, :required => false
-  - form.buttons do
-    = form.commit_button "Sign in"
-= render :partial => "shared/devise_links"

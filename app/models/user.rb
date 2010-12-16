@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   
-  devise :database_authenticatable, :confirmable, :recoverable, :registerable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :recoverable, :registerable, :rememberable, :trackable, :validatable
   
   has_many :league_players, :foreign_key => "player_id"
   has_many :leagues, :through => :league_players
@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   attr_accessible :name
   attr_accessible :email
   attr_accessible :password
+  attr_accessible :password_confirmation
+  attr_accessible :remember_me
     
   def win_p
     if played > 0

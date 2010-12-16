@@ -1,8 +1,8 @@
 namespace :db do
   desc <<-EOS
     Loads seed data for the current environment. It will look for
-    ruby seed files in <RAILS_ROOT>/db/fixtures/ and 
-    <RAILS_ROOT>/db/fixtures/<RAILS_ENV>/.
+    ruby seed files in <Rails.root>/db/fixtures/ and 
+    <Rails.root>/db/fixtures/<Rails.env>/.
 
     By default it will load any ruby files found. You can filter the files
     loaded by passing in the SEED environment variable with a comma-delimited
@@ -19,14 +19,14 @@ namespace :db do
       # to load seed files matching orders or customers
       rake db:seed SEED=orders,customers
       
-      # to load files from RAILS_ROOT/features/fixtures
+      # to load files from Rails.root/features/fixtures
       rake db:seed FIXTURE_PATH=features/fixtures 
   EOS
   task :seed => :environment do
     fixture_path = ENV["FIXTURE_PATH"] ? ENV["FIXTURE_PATH"] : "db/fixtures"
 
-    global_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, '*.rb')].sort
-    env_specific_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, RAILS_ENV, '*.rb')]
+    global_seed_files = Dir[File.join(Rails.root, fixture_path, '*.rb')].sort
+    env_specific_seed_files = Dir[File.join(Rails.root, fixture_path, Rails.env, '*.rb')]
     potential_seed_files = (global_seed_files + env_specific_seed_files).uniq
     
     if ENV["SEED"]
@@ -36,7 +36,7 @@ namespace :db do
     end
 
     potential_seed_files.each do |file|
-      pretty_name = file.sub("#{RAILS_ROOT}/", "")
+      pretty_name = file.sub("#{Rails.root}/", "")
       puts "\n== Seed from #{pretty_name} " + ("=" * (60 - (17 + File.split(file).last.length)))
       load file
     end

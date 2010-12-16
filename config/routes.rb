@@ -1,21 +1,24 @@
-ActionController::Routing::Routes.draw do |map|
+Wuzlr::Application.routes.draw do
+  devise_for :users
+  root :to => 'home#index'
 
-  map.devise_for :users
-  
-  map.resource  :session, :only => [:new, :create, :destroy]
-  
-  map.root :controller => 'home'
-  
-  map.resources :leagues, :except => [:index, :destroy] do |league|
-    league.resources :invites, :only   => [:new, :create]
-    league.resources :matches, :except => [:index, :destroy], :member => {:full_time => :put}
+  resources :leagues, :except => [:index, :destroy] do
+    resources :invites, :only => [:new, :create]
+    resources :matches, :except => [:index, :destroy] do
+      member do
+        put :full_time
+      end
+    end
   end
-  
-  map.resources :users, :only => [:new, :create], :member => {:compare => :get} do |user|
-    user.resources :leagues, :only => :index
+
+  resources :users, :only => [:new, :create] do
+    member do
+      get :compare
+    end
+    resources :leagues, :only => :index
   end
-  map.user "/users/:id", :controller => "users", :action => "show"
-  
-  map.league_graphs "/leagues/:league_id/graphs/:action", :controller => :graphs
-  map.user_graphs   "/users/:user_id/graphs/:action",   :controller => :graphs
+
+  match '/users/:id' => 'users#show', :as => :user
+  match '/leagues/:league_id/graphs/:action' => 'graphs#index', :as => :league_graphs
+  match '/users/:user_id/graphs/:action' => 'graphs#index', :as => :user_graphs
 end

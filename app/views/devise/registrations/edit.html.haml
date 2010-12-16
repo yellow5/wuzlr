@@ -1,9 +1,5 @@
 - @subheader = "Edit #{resource_name.to_s.humanize}"
-%p
-  Pics provided by gravatar. Need one? Go
-  %a{:href => "http://gravatar.com"} here
-  \&amp; signup with your wuzlr account email
-- semantic_form_for resource_name, resource, :url => registration_path(resource_name), :html => { :method => :put } do |f|
+= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
   = f.error_messages
   - f.inputs do
     = f.input :name
@@ -12,4 +8,4 @@
     = f.input :password_confirmation, :as => :password
   - f.buttons do
     = f.commit_button "Update"
-= render :partial => "shared/devise_links"
+= link_to "Back", :back
