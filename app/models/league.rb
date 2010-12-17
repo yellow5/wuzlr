@@ -24,9 +24,10 @@ class League < ActiveRecord::Base
   end
   
   def matches_per_day
-    format = Rails.env == 'production' ? '%Y %b %d' : '%Y %m %d'
-    results = matches.count(:group => db_date_format(:field => 'started_at', :format => format))
-    results.map{|k,v| [DateTime.strptime(k,format),v] }.sort_by{|e| e[0]}
+    db_format    = Rails.env == 'production' ? 'YYYY Mon DD' : '%Y %m %d'
+    strip_format = Rails.env == 'production' ? '%Y %b %d' : '%Y %m %d'
+    results = matches.count(:group => db_date_format(:field => 'started_at', :format => db_format))
+    results.map{|k,v| [DateTime.strptime(k,strip_format),v] }.sort_by{|e| e[0]}
   end
   
   def table_bias
