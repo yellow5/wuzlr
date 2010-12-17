@@ -46,6 +46,6 @@ module Wuzlr
     ActiveRecord::Base.connection_pool.clear_reloadable_connections!
   end
 
-  DO_NOT_REPLY = "donotreply@wuzlr.com"
+  DO_NOT_REPLY = "noreply@chuzlr.com"
 end
 

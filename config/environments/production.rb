@@ -44,7 +44,7 @@ Wuzlr::Application.configure do
 
   ActionMailer::Base.delivery_method = :sendmail
 
-  config.action_mailer.default_url_options = { :host => 'wuzlr.com' }
+  config.action_mailer.default_url_options = { :host => 'chuzlr.com' }
 
-  HOST = "wuzlr.com"
+  HOST = "chuzlr.com"
 end
