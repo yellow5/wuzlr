@@ -1,4 +1,5 @@
 class League < ActiveRecord::Base
+  include DbDateFormat
   
   validates_presence_of :name
   validates_presence_of :user, :on => :create
@@ -23,8 +24,8 @@ class League < ActiveRecord::Base
   end
   
   def matches_per_day
-    format = "%Y %m %d"
-    results = matches.count(:group => "strftime('#{format}', started_at)")
+    format = Rails.env == 'production' ? '%Y %b %d' : '%Y %m %d'
+    results = matches.count(:group => db_date_format(:field => 'started_at', :format => format))
     results.map{|k,v| [DateTime.strptime(k,format),v] }.sort_by{|e| e[0]}
   end
   
