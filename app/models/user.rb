@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   attr_accessible :password_confirmation
   attr_accessible :remember_me
     
+  before_save :haskins_sprinkles
+
   def win_p
     if played > 0
       ((won / played.to_f) * 100).to_i
@@ -163,4 +165,7 @@ private
     matches.find(:all, :conditions => "finished_at > '#{time}'").size
   end
   
+  def haskins_sprinkles
+    self.name = 'Michael "Sprinkles" Haskins' if email.strip.downcase == 'mhaskins@changehealthcare.com'
+  end
 end
