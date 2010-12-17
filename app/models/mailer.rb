@@ -1,5 +1,5 @@
 class Mailer < ActionMailer::Base
-  default :from => DO_NOT_REPLY
+  default :from => 'noreply@chuzlr.com'
 
   def invitation(to, league)
     @league = league

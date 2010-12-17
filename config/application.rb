@@ -45,7 +45,5 @@ module Wuzlr
     ActiveRecord::Base.logger = Logger.new(stream)
     ActiveRecord::Base.connection_pool.clear_reloadable_connections!
   end
-
-  DO_NOT_REPLY = "noreply@chuzlr.com"
 end
 
