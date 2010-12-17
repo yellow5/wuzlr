@@ -56,7 +56,7 @@ class MatchesController < ApplicationController
   # GET /leagues/1/matches/1/edit
   def full_time
     @match = league.matches.find(params[:id])
-    @match.finished_at = Time.now unless @match.finished_at
+    @match.finished_at = Time.now if @match.finished_at.blank?
     @match.full_time
     
     respond_to do |format|

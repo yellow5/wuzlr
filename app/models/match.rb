@@ -43,7 +43,7 @@ class Match < ActiveRecord::Base
     end
     
     before_transition :planning => :playing do |match, transition|
-      match.started_at = Time.now unless match.started_at
+      match.started_at = Time.now if match.started_at.blank?
     end
     
     after_transition :finished => :recorded do |match, transition|
