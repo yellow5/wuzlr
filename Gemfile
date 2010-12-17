@@ -10,3 +10,7 @@ gem "state_machine",    "0.9.4"
 gem "peterpunk-mhash",  "0.0.8"
 gem "haml",             "3.0.24"
 gem "compass",          ">= 0.10.6"
+
+group :production do
+  gem "hassle"
+end
