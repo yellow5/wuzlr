@@ -3,6 +3,6 @@ class Mailer < ActionMailer::Base
 
   def invitation(to, league)
     @league = league
-    mail(:to => to, :subject => "You have been summoned to Wuzlr!")
+    mail(:to => to, :subject => "You have been summoned to chuzlr!")
   end
 end

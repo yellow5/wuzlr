@@ -1,6 +1,6 @@
 !!!
 %html{:lang => "en-gb"}
-  %title Wuzlr, get wuzlin' baby
+  %title chuzlr, get chuzlin' baby
   %head{:profile => "http://gmpg.org/xfn/11"}
     %link{:href => "http://chuzlr.com/images/favicon.png", :rel => "shortcut icon", :type => "image/png"}/
     / Link basic styling for older browsers
@@ -21,11 +21,11 @@
     .wrapper
       #header
         %h1.logo
-          %a{:href => "/", :rel => "home"} Wuzlr
+          %a{:href => "/", :rel => "home"} chuzlr
       #content.clear
         #bulk.g18
           .headit.clear
-            %h2= @header || @user.try(:name) || @league.try(:name) || "Wuzlr, get wuzlin' baby"
+            %h2= @header || @user.try(:name) || @league.try(:name) || "chuzlr, get chuzlin' baby"
             - if @subheader
               %h3= @subheader
             %hr/
