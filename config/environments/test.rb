@@ -1,5 +1,5 @@
 Wuzlr::Application.configure do
-  # Settings specified here will take precedence over those in config/environment.rb
+  # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
   # test suite.  You never need to work with it otherwise.  Remember that
@@ -11,8 +11,8 @@ Wuzlr::Application.configure do
   config.whiny_nils = true
 
   # Show full error reports and disable caching
-  config.action_controller.consider_all_requests_local = true
-  config.action_controller.perform_caching             = false
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
 
   # Raise exceptions instead of rendering exception templates
   config.action_dispatch.show_exceptions = false

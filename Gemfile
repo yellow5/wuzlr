@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 source "http://gems.github.com"
 
-gem "rails",            "3.0.3"
+gem "rails",            "3.0.4"
 gem "sqlite3-ruby",     "1.3.2", :require => "sqlite3"
 gem "devise",           "1.1.5"
 gem "formtastic",       "1.2.2"
