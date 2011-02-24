@@ -12,8 +12,5 @@ gem "compass",          ">= 0.10.6"
 
 group :development, :test do
   gem "sqlite3-ruby",   "1.3.3", :require => "sqlite3"
-end
-
-group :test do
   gem "ruby-debug",     "0.10.4"
 end
