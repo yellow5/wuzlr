@@ -28,7 +28,7 @@ class LeagueStat < ActiveRecord::Base
 private
 
   def matches_since(time)
-    user.matches.count(:conditions => "finished_at > '#{time}' AND league_id = #{league.id}")
+    user.matches.count(:conditions => ["finished_at > ? AND league_id = ?", time, league.id])
   end
   
 end

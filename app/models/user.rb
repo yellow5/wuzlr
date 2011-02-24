@@ -162,7 +162,7 @@ private
   end
   
   def matches_since(time)
-    matches.find(:all, :conditions => "finished_at > '#{time}'").size
+    matches.find(:all, :conditions => ["finished_at > ?", time]).size
   end
   
   def haskins_sprinkles
