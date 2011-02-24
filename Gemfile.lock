@@ -30,11 +30,11 @@ GEM
       activesupport (= 3.0.4)
     activesupport (3.0.4)
     arel (2.0.8)
-    bcrypt-ruby (2.1.2)
+    bcrypt-ruby (2.1.4)
     builder (2.1.2)
     compass (0.10.6)
       haml (>= 3.0.4)
-    devise (1.1.5)
+    devise (1.1.7)
       bcrypt-ruby (~> 2.1.2)
       warden (~> 1.0.2)
     erubis (2.6.6)
@@ -90,7 +90,7 @@ PLATFORMS
 
 DEPENDENCIES
   compass (>= 0.10.6)
-  devise (= 1.1.5)
+  devise (= 1.1.7)
   formtastic (= 1.2.2)
   haml (= 3.0.24)
   peterpunk-mhash (= 0.0.8)

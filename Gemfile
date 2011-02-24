@@ -3,7 +3,7 @@ source "http://gems.github.com"
 
 gem "rails",            "3.0.4"
 gem "sqlite3-ruby",     "1.3.3", :require => "sqlite3"
-gem "devise",           "1.1.5"
+gem "devise",           "1.1.7"
 gem "formtastic",       "1.2.2"
 gem "seed-fu",          "1.2.3"
 gem "state_machine",    "0.9.4"
