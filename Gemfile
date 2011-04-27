@@ -7,7 +7,7 @@ gem "formtastic",       "1.2.3"
 gem "seed-fu",          "2.0.1"
 gem "state_machine",    "0.10.4"
 gem "peterpunk-mhash",  "0.0.8"
-gem "haml",             "3.0.25"
+gem "haml",             "3.1.1"
 gem "compass",          ">= 0.10.6"
 
 group :development, :test do
