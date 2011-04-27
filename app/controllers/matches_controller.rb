@@ -10,7 +10,7 @@ class MatchesController < ApplicationController
     respond_to do |format|
       format.html {
         case @match.state
-        when "playing"  : render :template => "matches/playing", :layout => false
+        when "playing" then render :template => "matches/playing", :layout => false
         else render :template => "matches/result"
         end
       }# show.html.erb

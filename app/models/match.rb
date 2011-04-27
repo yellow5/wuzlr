@@ -73,8 +73,8 @@ class Match < ActiveRecord::Base
   
   def loser
     case winner
-    when "red"  : "blue"
-    when "blue" : "red"
+    when "red"  then "blue"
+    when "blue" then "red"
     else nil
     end
   end
@@ -89,16 +89,16 @@ class Match < ActiveRecord::Base
   
   def winners
     case winner
-    when "red" : red_players
-    when "blue": blue_players
+    when "red"  then red_players
+    when "blue" then blue_players
     else nil
     end
   end
   
   def losers
     case loser
-    when "red" : red_players
-    when "blue": blue_players
+    when "red"  then red_players
+    when "blue" then blue_players
     else nil
     end
   end
@@ -123,24 +123,24 @@ class Match < ActiveRecord::Base
   
   def team_without(user)
     case team_with(user)
-    when "red"  : "blue"
-    when "blue" : "red"
+    when "red"  then "blue"
+    when "blue" then "red"
     else nil
     end
   end
   
   def players_for(team)
     case team
-    when "red"  : red_players
-    when "blue" : blue_players
+    when "red"  then red_players
+    when "blue" then blue_players
     else nil
     end
   end
   
   def score_for(team)
     case team
-    when "red"  : red_score
-    when "blue" : blue_score
+    when "red"  then red_score
+    when "blue" then blue_score
     else nil
     end
   end

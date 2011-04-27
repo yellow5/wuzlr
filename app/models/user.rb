@@ -154,7 +154,7 @@ private
     match.players.each {|p|
       next if p == self
       r = case match.team_with(p)
-      when team : "ally"
+      when team then "ally"
       else "opponent"
       end
       stats.create(:other_user_id => p.id, :relation => r, :won => won, :by => by, :match_id => match.id)
