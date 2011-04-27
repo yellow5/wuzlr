@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Wuzlr::Application.config.secret_token = '523b3962ce16b8f92addc1abb97fba77ffd5364b1162e1755eb025a404d70cebc86534266df268710f0a2059c074c35c3bdf1b74f8f76af2f06ca6b4e0e21639'
+Wuzlr::Application.config.secret_token = '38270ff3f265879dbe6ad56d4f572c207e623b7b5576587296df6da2459986181b3f1740681a533b87d4e6d4be4565528f0d1d39cbf3e38a5cef8c00a9e2712b'
