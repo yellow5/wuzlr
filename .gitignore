@@ -3,5 +3,6 @@ log
 tmp
 *.sqlite3
 .rvmrc
+*.swp
 config/setup_load_paths.rb
 public/stylesheets/compiled/*
