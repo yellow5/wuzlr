@@ -1,15 +1,15 @@
 source "http://rubygems.org"
 source "http://gems.github.com"
 
-gem "rails",            "3.0.10"
-gem "devise",           "1.4.5"
-gem "formtastic",       "1.2.4"
-gem "seed-fu",          "2.0.1"
-gem "state_machine",    "1.0.2"
-gem "peterpunk-mhash",  "0.0.8"
-gem "haml",             "3.1.3"
-gem "compass",          "0.11.5"
+gem "rails", "~> 3.0.10"
+gem "devise"
+gem "formtastic"
+gem "seed-fu"
+gem "state_machine"
+gem "peterpunk-mhash"
+gem "haml"
+gem "compass"
 
 group :development, :test do
-  gem "sqlite3",        "1.3.4", :require => "sqlite3"
+  gem "sqlite3", :require => "sqlite3"
 end
