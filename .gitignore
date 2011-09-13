@@ -5,4 +5,5 @@ tmp
 .rvmrc
 *.swp
 config/setup_load_paths.rb
+config/database.yml
 public/stylesheets/compiled/*
