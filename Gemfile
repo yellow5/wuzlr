@@ -9,7 +9,4 @@ gem "state_machine"
 gem "peterpunk-mhash"
 gem "haml"
 gem "compass"
-
-group :development, :test do
-  gem "sqlite3", :require => "sqlite3"
-end
+gem "pg"
