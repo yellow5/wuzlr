@@ -3,7 +3,7 @@ source "http://gems.github.com"
 
 gem "rails",            "3.0.10"
 gem "devise",           "1.4.5"
-gem "formtastic",       "1.2.3"
+gem "formtastic",       "1.2.4"
 gem "seed-fu",          "2.0.1"
 gem "state_machine",    "0.10.4"
 gem "peterpunk-mhash",  "0.0.8"
