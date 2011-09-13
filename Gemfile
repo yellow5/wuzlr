@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 source "http://gems.github.com"
 
-gem "rails",            "3.0.7"
+gem "rails",            "3.0.10"
 gem "devise",           "1.3.3"
 gem "formtastic",       "1.2.3"
 gem "seed-fu",          "2.0.1"
