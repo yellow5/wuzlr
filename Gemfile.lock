@@ -30,15 +30,15 @@ GEM
       activesupport (= 3.0.10)
     activesupport (3.0.10)
     arel (2.0.10)
-    bcrypt-ruby (2.1.4)
+    bcrypt-ruby (3.0.1)
     builder (2.1.2)
     chunky_png (1.2.1)
     compass (0.11.5)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
-    devise (1.3.3)
-      bcrypt-ruby (~> 2.1.2)
+    devise (1.4.5)
+      bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
     erubis (2.6.6)
@@ -56,7 +56,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    orm_adapter (0.0.4)
+    orm_adapter (0.0.5)
     peterpunk-mhash (0.0.8)
     polyglot (0.3.2)
     rack (1.2.3)
@@ -92,15 +92,15 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.29)
-    warden (1.0.3)
-      rack (>= 1.0.0)
+    warden (1.0.5)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   compass (= 0.11.5)
-  devise (= 1.3.3)
+  devise (= 1.4.5)
   formtastic (= 1.2.3)
   haml (= 3.1.3)
   peterpunk-mhash (= 0.0.8)
