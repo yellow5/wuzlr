@@ -7,3 +7,4 @@ tmp
 config/setup_load_paths.rb
 config/database.yml
 public/stylesheets/compiled/*
+db/schema.rb
