@@ -11,5 +11,5 @@ gem "haml",             "3.1.3"
 gem "compass",          "0.11.5"
 
 group :development, :test do
-  gem "sqlite3-ruby",   "1.3.3", :require => "sqlite3"
+  gem "sqlite3",        "1.3.4", :require => "sqlite3"
 end
