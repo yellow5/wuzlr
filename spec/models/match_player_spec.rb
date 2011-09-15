@@ -39,11 +39,10 @@ describe MatchPlayer do
       let(:league) { League.create!(:name => 'League Name', :user_id => user.id) }
       let(:match) { Match.create!(:league_id => league.id) }
       let(:match_player) { MatchPlayer.new(:position => 0, :player_id => user.id, :match_id => match.id) }
-      let(:team_colors) { %w( red blue ) }
       let(:bad_colors) { %w( green yellow ) }
 
-      it 'ensures inclusion of in red,blue' do
-        team_colors.each do |team_color|
+      it "ensures inclusion of in #{MatchPlayer::TEAM_COLORS.join(',')}" do
+        MatchPlayer::TEAM_COLORS.each do |team_color|
           match_player.team = team_color
           match_player.should be_valid
         end
