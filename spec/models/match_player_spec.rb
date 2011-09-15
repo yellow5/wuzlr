@@ -35,10 +35,7 @@ describe MatchPlayer do
     it { should validate_presence_of(:match) }
 
     context 'team' do
-      let(:user) { User.create!(:email => 'user1@email.com', :password => 'asdf1234', :name => 'User 1') }
-      let(:league) { League.create!(:name => 'League Name', :user_id => user.id) }
-      let(:match) { Match.create!(:league_id => league.id) }
-      let(:match_player) { MatchPlayer.new(:position => 0, :player_id => user.id, :match_id => match.id) }
+      let(:match_player) { Fabricate.build(:match_player, :team => nil) }
       let(:bad_colors) { %w( green yellow ) }
 
       it "ensures inclusion of in #{MatchPlayer::TEAM_COLORS.join(',')}" do

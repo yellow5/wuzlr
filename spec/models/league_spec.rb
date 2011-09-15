@@ -30,8 +30,7 @@ describe League do
     end
 
     context 'existing record' do
-      let(:user) { User.create!(:email => 'user1@email.com', :password => 'asdf1234', :name => 'User 1') }
-      let!(:league) { League.create!(:name => 'League Name', :user_id => user.id) }
+      let!(:league) { Fabricate(:league) }
 
       subject { league }
 

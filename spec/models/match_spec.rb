@@ -21,12 +21,14 @@ describe Match do
     it { should have_many(:stats) }
 
     context 'team players' do
-      let(:red_user) { User.create!(:email => 'user1@email.com', :password => 'asdf1234', :name => 'User 1') }
-      let(:blue_user) { User.create!(:email => 'user2@email.com', :password => 'asdf1234', :name => 'User 2') }
-      let(:league) { League.create!(:name => 'League Name', :user_id => red_user.id) }
-      let!(:match) { Match.create!(:league_id => league.id) }
-      let!(:red_match_player) { MatchPlayer.create!(:match_id => match.id, :team => 'red', :player_id => red_user.id, :position => 0) }
-      let!(:blue_match_player) { MatchPlayer.create!(:match_id => match.id, :team => 'blue', :player_id => blue_user.id, :position => 0) }
+      let(:red_user) { Fabricate(:user) }
+      let(:blue_user) { Fabricate(:user) }
+      let!(:match) do
+        Fabricate(:match).tap do |new_match|
+          Fabricate(:match_player, :match => new_match, :team => 'red', :player => red_user)
+          Fabricate(:match_player, :match => new_match, :team => 'blue', :player => blue_user)
+        end
+      end
 
       subject { match }
 

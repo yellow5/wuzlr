@@ -25,7 +25,7 @@ describe LeagueStat do
   end
 
   describe 'validations' do
-    let!(:league_stat) { LeagueStat.create! }
+    let!(:league_stat) { Fabricate(:league_stat) }
 
     subject { league_stat }
 
