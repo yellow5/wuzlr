@@ -30,4 +30,14 @@ describe User do
     it { should have_db_index(:email).unique(true) }
     it { should have_db_index(:reset_password_token).unique(true) }
   end
+
+  describe 'associations' do
+    it { should have_many(:league_players) }
+    it { should have_many(:leagues).through(:league_players) }
+    it { should have_many(:match_players) }
+    it { should have_many(:matches).through(:match_players) }
+    it { should have_many(:stats) }
+    it { should have_many(:match_stats) }
+    it { should have_many(:league_stats) }
+  end
 end

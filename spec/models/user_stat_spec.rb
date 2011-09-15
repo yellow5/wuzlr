@@ -9,4 +9,9 @@ describe UserStat do
     it { should have_db_column(:won).of_type(:boolean) }
     it { should have_db_column(:by).of_type(:integer) }
   end
+
+  describe 'associations' do
+    it { should belong_to(:user) }
+    it { should belong_to(:other_user) }
+  end
 end

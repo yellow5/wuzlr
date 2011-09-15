@@ -18,4 +18,9 @@ describe LeagueStat do
     it { should have_db_column(:longest_on_top_streak).of_type(:integer).with_options(:default => 0) }
     it { should have_db_column(:longest_on_bottom_streak).of_type(:integer).with_options(:default => 0) }
   end
+
+  describe 'associations' do
+    it { should belong_to(:league) }
+    it { should belong_to(:user) }
+  end
 end

@@ -9,4 +9,9 @@ describe MatchPlayer do
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
   end
+
+  describe 'associations' do
+    it { should belong_to(:player) }
+    it { should belong_to(:match) }
+  end
 end
