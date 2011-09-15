@@ -1,5 +1,4 @@
 class LeagueStat < ActiveRecord::Base
-  
   belongs_to :league
   belongs_to :user
   
@@ -25,10 +24,9 @@ class LeagueStat < ActiveRecord::Base
     end
   end
   
-private
+  private
 
   def matches_since(time)
     user.matches.count(:conditions => ["finished_at > ? AND league_id = ?", time, league.id])
   end
-  
 end

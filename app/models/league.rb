@@ -1,15 +1,14 @@
 class League < ActiveRecord::Base
   include DbDateFormat
   
-  validates_presence_of :name
-  validates_presence_of :user, :on => :create
-  
   belongs_to :user
   has_many :matches
-  
   has_many :league_players
   has_many :players, :through => :league_players
   has_many :stats, :class_name => "LeagueStat"  
+  
+  validates_presence_of :name
+  validates_presence_of :user, :on => :create
   
   def add_player(user)
     league_players.create(:player_id => user.id) unless players.include?(user)
@@ -68,5 +67,4 @@ class League < ActiveRecord::Base
     stat.longest_losing_streak = current_streak if current_streak > stat.longest_losing_streak
     stat.save!
   end
-  
 end

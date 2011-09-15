@@ -1,13 +1,9 @@
 class Match < ActiveRecord::Base
-  
   belongs_to :league
-  
   has_many :match_players
-  
   has_many :players,      :through => :match_players
   has_many :red_players,  :through => :match_players, :conditions => "match_players.team = 'red'" , :source => :player
   has_many :blue_players, :through => :match_players, :conditions => "match_players.team = 'blue'", :source => :player
-  
   has_many :stats, :class_name => "MatchStat"
   
   validates_presence_of :league
@@ -145,7 +141,7 @@ class Match < ActiveRecord::Base
     end
   end
   
-private
+  private
 
   def players_on_both_sides
     errors.add_to_base "Need at least one blue player" if blue_players.empty?
@@ -165,5 +161,4 @@ private
       errors.add_to_base "One team only must score 10"
     end
   end
-    
 end

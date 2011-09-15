@@ -5,15 +5,14 @@ class User < ActiveRecord::Base
   
   has_many :league_players, :foreign_key => "player_id"
   has_many :leagues, :through => :league_players
-  
   has_many :match_players, :foreign_key => "player_id"
   has_many :matches, :through => :match_players
-  
   has_many :stats, :class_name => "UserStat"
   has_many :match_stats
   has_many :league_stats
     
   validates_presence_of :name
+
   attr_accessible :name
   attr_accessible :email
   attr_accessible :password
@@ -141,7 +140,7 @@ class User < ActiveRecord::Base
     stats.allies.lost.count(:all, :group => :other_user, :order => "count_all DESC", :limit => limit).to_a
   end
   
-private
+  private
   
   def create_stats(match)
     team = match.team_with(self)
