@@ -25,4 +25,9 @@ describe User do
     it { should have_db_column(:longest_losing_streak).of_type(:integer).with_options(:default => 0) }
     it { should have_db_column(:win_loss_percentage).of_type(:float).with_options(:default => 0.0) }
   end
+
+  describe 'indexes' do
+    it { should have_db_index(:email).unique(true) }
+    it { should have_db_index(:reset_password_token).unique(true) }
+  end
 end
