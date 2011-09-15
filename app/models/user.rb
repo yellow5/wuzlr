@@ -39,10 +39,8 @@ class User < ActiveRecord::Base
   end
   
   def matches_per_day
-    db_format    = Rails.env == 'production' ? 'YYYY Mon DD' : '%Y %m %d'
-    strip_format = Rails.env == 'production' ? '%Y %b %d' : '%Y %m %d'
-    results = matches.count(:group => db_date_format(:field => 'started_at', :format => db_format))
-    results.map{|k,v| [DateTime.strptime(k,strip_format),v] }.sort_by{|e| e[0]}
+    results = matches.count(:group => db_date_format(:field => 'started_at', :format => 'YYYY Mon DD'))
+    results.map{|k,v| [DateTime.strptime(k,'%Y %b %d'),v] }.sort_by{|e| e[0]}
   end
   
   def add_win(match)
@@ -112,13 +110,11 @@ class User < ActiveRecord::Base
   end
   
   def lost_per_day
-    format = Rails.env == 'production' ? 'YYYY Mon DD' : '%Y-%m-%d'
-    match_stats.lost.count(:group => db_date_format(:field => 'matches.started_at', :format => format), :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
+    match_stats.lost.count(:group => db_date_format(:field => 'matches.started_at', :format => 'YYYY Mon DD'), :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
   end
   
   def won_per_day
-    format = Rails.env == 'production' ? 'YYYY Mon DD' : '%Y-%m-%d'
-    match_stats.won.count(:group => db_date_format(:field => 'matches.started_at', :format => format), :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
+    match_stats.won.count(:group => db_date_format(:field => 'matches.started_at', :format => 'YYYY Mon DD'), :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
   end
   
   def number_matches_against(user)
