@@ -30,7 +30,7 @@ describe MatchPlayer do
   end
 
   describe 'validations' do
-    it { should ensure_inclusion_of(:position).in_range(0..3) }
+    it { should ensure_inclusion_of(:position).in_range(MatchPlayer::POSITION_RANGE) }
     it { should validate_presence_of(:player) }
     it { should validate_presence_of(:match) }
 

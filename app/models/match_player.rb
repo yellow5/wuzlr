@@ -6,7 +6,7 @@ class MatchPlayer < ActiveRecord::Base
   belongs_to :match
 
   validates_inclusion_of :team,     :in => TEAM_COLORS
-  validates_inclusion_of :position, :in => 0..3
+  validates_inclusion_of :position, :in => POSITION_RANGE
   validates_presence_of  :player
   validates_presence_of  :match
 end
