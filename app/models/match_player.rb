@@ -1,4 +1,7 @@
 class MatchPlayer < ActiveRecord::Base
+  TEAM_COLORS    = %w( red blue )
+  POSITION_RANGE = 0..3
+
   belongs_to :player, :class_name => "User"
   belongs_to :match
 

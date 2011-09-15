@@ -1,6 +1,20 @@
 require 'spec_helper'
 
 describe MatchPlayer do
+  describe 'constants' do
+    context 'TEAM_COLORS' do
+      it 'returns valid team colors' do
+        MatchPlayer::TEAM_COLORS.should eq(%w( red blue ))
+      end
+    end
+
+    context 'POSITION_RANGE' do
+      it 'returns valid range of positions' do
+        MatchPlayer::POSITION_RANGE.should eq(0..3)
+      end
+    end
+  end
+
   describe 'attributes' do
     it { should have_db_column(:team).of_type(:string) }
     it { should have_db_column(:position).of_type(:integer) }
