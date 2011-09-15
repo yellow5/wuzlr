@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 describe User do
+  describe 'mixins' do
+    subject { User.included_modules }
+
+    it { should include(DbDateFormat) }
+    it { should include(Devise::Models::Authenticatable) }
+    it { should include(Devise::Models::Recoverable) }
+    it { should include(Devise::Models::Registerable) }
+    it { should include(Devise::Models::Rememberable) }
+    it { should include(Devise::Models::Trackable) }
+    it { should include(Devise::Models::Validatable) }
+  end
+
   describe 'attributes' do
     it { should have_db_column(:email).of_type(:string).with_options(:default => '', :null => false) }
     it { should have_db_column(:encrypted_password).of_type(:string).with_options(:limit => 128, :default => '', :null => false) }

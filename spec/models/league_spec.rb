@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe League do
+  describe 'mixins' do
+    subject { League.included_modules }
+
+    it { should include(DbDateFormat) }
+  end
+
   describe 'attributes' do
     it { should have_db_column(:name).of_type(:string) }
     it { should have_db_column(:description).of_type(:text) }
