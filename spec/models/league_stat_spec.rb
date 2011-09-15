@@ -23,4 +23,12 @@ describe LeagueStat do
     it { should belong_to(:league) }
     it { should belong_to(:user) }
   end
+
+  describe 'validations' do
+    let!(:league_stat) { LeagueStat.create! }
+
+    subject { league_stat }
+
+    it { should validate_uniqueness_of(:user_id).scoped_to(:league_id) }
+  end
 end

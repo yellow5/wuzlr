@@ -40,4 +40,8 @@ describe User do
     it { should have_many(:match_stats) }
     it { should have_many(:league_stats) }
   end
+
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+  end
 end

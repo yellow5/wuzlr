@@ -16,4 +16,20 @@ describe League do
     it { should have_many(:players).through(:league_players) }
     it { should have_many(:stats) }
   end
+
+  describe 'validations' do
+    context 'new record' do
+      it { should validate_presence_of(:name) }
+      it { should validate_presence_of(:user) }
+    end
+
+    context 'existing record' do
+      let(:user) { User.create!(:email => 'user1@email.com', :password => 'asdf1234', :name => 'User 1') }
+      let!(:league) { League.create!(:name => 'League Name', :user_id => user.id) }
+
+      subject { league }
+
+      it { should_not validate_presence_of(:user) }
+    end
+  end
 end
