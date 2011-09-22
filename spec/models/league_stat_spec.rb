@@ -31,4 +31,44 @@ describe LeagueStat do
 
     it { should validate_uniqueness_of(:user_id).scoped_to(:league_id) }
   end
+
+  describe '.most_active_leagues' do
+    let(:league1) { Fabricate(:league) }
+    let(:league2) { Fabricate(:league) }
+    let(:league3) { Fabricate(:league) }
+    let!(:league_stat1) { Fabricate(:league_stat, :league => league1, :played => 1) }
+    let!(:league_stat2) { Fabricate(:league_stat, :league => league2, :played => 2) }
+    let!(:league_stat3) { Fabricate(:league_stat, :league => league3, :played => 3) }
+    let(:expected_league_results) { [ league3, league2, league1 ] }
+
+    def do_invoke
+      LeagueStat.most_active_leagues
+    end
+
+    it 'defaults to three records' do
+      do_invoke.count.should eq(3)
+    end
+
+    it 'orders by played desc' do
+      do_invoke.should eq(expected_league_results)
+    end
+
+    it 'returns distinct leagues via league_id, played' do
+      user         = Fabricate(:user)
+      league_stat4 = Fabricate(:league_stat, :user => user, :league => league3, :played => 3)
+      do_invoke.should eq(expected_league_results)
+
+      league_stat4.update_attributes!(:played => 4)
+      do_invoke.should eq([ league3, league3, league2 ])
+    end
+
+    it 'limits by received limit parameter' do
+      LeagueStat.most_active_leagues(2).count.should eq(2)
+    end
+
+    it 'returns an empty array if none are found' do
+      LeagueStat.destroy_all
+      do_invoke.should eq([])
+    end
+  end
 end
