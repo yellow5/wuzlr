@@ -71,4 +71,70 @@ describe LeagueStat do
       do_invoke.should eq([])
     end
   end
+
+  describe '#winning_streak' do
+    context 'last_played_at does not equal last_won_at' do
+      let(:league_stat) do
+        Fabricate(:league_stat, :last_played_at => Time.now, :last_won_at => 1.day.ago)
+      end
+
+      it 'returns 0' do
+        league_stat.winning_streak.should eq(0)
+      end
+    end
+
+    context 'last_played_at equals last_won_at' do
+      let!(:played_at) { Time.now }
+
+      context 'last_lost_at is blank' do
+        let(:league_stat) do
+          Fabricate(
+            :league_stat,
+            :last_played_at => played_at,
+            :last_won_at    => played_at,
+            :last_lost_at   => nil,
+            :won            => 3
+          )
+        end
+
+        it 'returns value of won' do
+          league_stat.winning_streak.should eq(league_stat.won)
+        end
+      end
+
+      context 'last_lost_at is not blank' do
+        let!(:user) { Fabricate(:user) }
+        let!(:league) { Fabricate(:league, :user => user) }
+        let!(:another_league) { Fabricate(:league, :user => user) }
+        let(:league_stat) do
+          Fabricate(
+            :league_stat,
+            :user           => user,
+            :league         => league,
+            :last_played_at => played_at,
+            :last_won_at    => played_at,
+            :last_lost_at   => 1.month.ago,
+            :won            => 3
+          )
+        end
+
+        def generate_matches_for(opts={})
+          options = { :finished_at => 2.weeks.ago }.merge(opts)
+          2.times do
+            match = Fabricate(:match, :finished_at => 2.weeks.ago, :league => options[:league])
+            Fabricate(:match_player, :player => options[:user], :match => match)
+          end
+        end
+
+        before do
+          generate_matches_for(:user => user, :league => league)
+          generate_matches_for(:user => user, :league => another_league)
+        end
+
+        it 'returns league matches since last_lost_at' do
+          league_stat.winning_streak.should eq(2)
+        end
+      end
+    end
+  end
 end
