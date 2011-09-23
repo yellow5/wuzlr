@@ -9,19 +9,13 @@ class LeagueStat < ActiveRecord::Base
   end
   
   def winning_streak
-    if last_played_at == last_won_at
-      last_lost_at.blank? ? won : matches_since(last_lost_at)
-    else
-      0
-    end
+    return 0 unless last_played_at == last_won_at
+    last_lost_at.blank? ? won : matches_since(last_lost_at)
   end
   
   def losing_streak
-    if last_played_at == last_lost_at
-      last_won_at.blank? ? lost : matches_since(last_won_at)
-    else
-      0
-    end
+    return 0 unless last_played_at == last_lost_at
+    last_won_at.blank? ? lost : matches_since(last_won_at)
   end
   
   private
