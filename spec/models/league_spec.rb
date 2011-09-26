@@ -37,4 +37,18 @@ describe League do
       it { should_not validate_presence_of(:user) }
     end
   end
+
+  describe '#owner?' do
+    let!(:user) { Fabricate(:user) }
+    let!(:another_user) { Fabricate(:user) }
+    let!(:league) { Fabricate(:league, :user => user) }
+
+    it 'returns true if user is the received user' do
+      league.owner?(user).should be_true
+    end
+
+    it 'returns false if user is not the received user' do
+      league.owner?(another_user).should be_false
+    end
+  end
 end
