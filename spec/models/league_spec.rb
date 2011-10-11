@@ -92,4 +92,33 @@ describe League do
       league.member_of?(user).should be_false
     end
   end
+
+  describe '#matches_per_day' do
+    let(:match_date1) { 1.month.ago }
+    let(:match_date2) { 2.months.ago }
+    let(:match_date3) { 3.months.ago }
+    let(:league) { Fabricate(:league) }
+    let(:expected_match_date1_result) { [match_date1.strftime('%Y %b %d'), 2] }
+    let(:expected_match_date2_result) { [match_date2.strftime('%Y %b %d'), 4] }
+    let(:expected_match_date3_result) { [match_date3.strftime('%Y %b %d'), 3] }
+    let(:expected_ordered_results) do
+      [expected_match_date3_result, expected_match_date2_result, expected_match_date1_result]
+    end
+
+    before do
+      2.times { Fabricate(:match, :league => league, :started_at => match_date1) }
+      4.times { Fabricate(:match, :league => league, :started_at => match_date2) }
+      3.times { Fabricate(:match, :league => league, :started_at => match_date3) }
+    end
+
+    it 'counts the number of matches per day by formatted started_at' do
+      league.matches_per_day.should include(expected_match_date1_result)
+      league.matches_per_day.should include(expected_match_date2_result)
+      league.matches_per_day.should include(expected_match_date3_result)
+    end
+
+    it 'sorts the results oldest match date to newest match date' do
+      league.matches_per_day.should eq(expected_ordered_results)
+    end
+  end
 end
