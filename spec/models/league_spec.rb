@@ -38,6 +38,32 @@ describe League do
     end
   end
 
+  describe '#add_player' do
+    let(:user) { Fabricate(:user) }
+    let(:league) { Fabricate(:league) }
+
+    context 'received user is not part of league' do
+      before do
+        LeaguePlayer.delete_all
+      end
+
+      it 'creates a new league player with user' do
+        expect { league.add_player(user) }.should change(LeaguePlayer, :count).by(1)
+        league.players.should include(user)
+      end
+    end
+
+    context 'received user is part of league' do
+      before do
+        Fabricate(:league_player, :league => league, :player => user)
+      end
+
+      it 'does not create a new league player with user' do
+        expect { league.add_player(user) }.should_not change(LeaguePlayer, :count)
+      end
+    end
+  end
+
   describe '#owner?' do
     let!(:user) { Fabricate(:user) }
     let!(:another_user) { Fabricate(:user) }
