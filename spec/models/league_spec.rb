@@ -77,4 +77,19 @@ describe League do
       league.owner?(another_user).should be_false
     end
   end
+
+  describe '#member_of?' do
+    let(:user) { Fabricate(:user) }
+    let(:league) { Fabricate(:league) }
+
+    it 'returns true if user is a league player' do
+      Fabricate(:league_player, :league => league, :player => user)
+      league.member_of?(user).should be_true
+    end
+
+    it 'returns false if user is not a league player' do
+      LeaguePlayer.delete_all
+      league.member_of?(user).should be_false
+    end
+  end
 end
