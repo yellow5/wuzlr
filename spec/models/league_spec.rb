@@ -121,4 +121,104 @@ describe League do
       league.matches_per_day.should eq(expected_ordered_results)
     end
   end
+
+  describe '#table_bias' do
+    let(:league) { Fabricate(:league) }
+
+    def do_invoke
+      league.table_bias
+    end
+
+    it 'returns an array with two elements' do
+      do_invoke.class.should eq(Array)
+      do_invoke.length.should eq(2)
+    end
+
+    it 'finds bias on recorded matches' do
+      mock_matches = mock
+      league.stubs(:matches).returns(mock_matches)
+      mock_matches.expects(:find).with(:all, :conditions => { :state => 'recorded' }).returns([])
+      do_invoke
+    end
+
+    context 'first index' do
+      it 'contains a 10 element array' do
+        do_invoke[0].class.should eq(Array)
+        do_invoke[0].length.should eq(10)
+      end
+
+      context '10 element array elements' do
+        it 'contain a 2 element array' do
+          (0..9).each do |index|
+            do_invoke[0][index].class.should eq(Array)
+            do_invoke[0][index].length.should eq(2)
+          end
+        end
+
+        context 'first index' do
+          it 'returns score differential message' do
+            (0..9).each do |index|
+              do_invoke[0][index][0].should eq("Won by #{index + 1}")
+            end
+          end
+        end
+
+        context 'second index' do
+          before do
+            (1..10).each do |counter|
+              counter.times do
+                Fabricate(:match, :league => league, :state => 'recorded', :red_score => 10, :blue_score => (10 - counter))
+              end
+            end
+          end
+
+          it 'returns count of red score victories by score differential' do
+            (0..9).each do |index|
+              do_invoke[0][index][1].should eq(index + 1)
+            end
+          end
+        end
+      end
+    end
+
+    context 'second index' do
+      it 'contains a 10 element array' do
+        do_invoke[1].class.should eq(Array)
+        do_invoke[1].length.should eq(10)
+      end
+
+      context '10 element array elements' do
+        it 'contain a 2 element array' do
+          (0..9).each do |index|
+            do_invoke[1][index].class.should eq(Array)
+            do_invoke[1][index].length.should eq(2)
+          end
+        end
+
+        context 'first index' do
+          it 'returns score differential message' do
+            (0..9).each do |index|
+              do_invoke[1][index][0].should eq("Won by #{index + 1}")
+            end
+          end
+        end
+
+        context 'second index' do
+          before do
+            (1..10).each do |counter|
+              counter.times do
+                Fabricate(:match, :league => league, :state => 'recorded', :blue_score => 10, :red_score => (10 - counter))
+              end
+            end
+          end
+
+          it 'returns count of blue score victories by score differential' do
+            (0..9).each do |index|
+              do_invoke[1][index][1].should eq(index + 1)
+            end
+          end
+        end
+      end
+    end
+  end
 end
