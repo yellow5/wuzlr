@@ -13,6 +13,7 @@ gem "pg"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
+  gem "pry"
 end
 
 group :test do
