@@ -17,6 +17,7 @@ group :test, :development do
 end
 
 group :test do
+  gem "ruby-debug19"
   gem "shoulda-matchers"
   gem "fabrication"
   gem "mocha"
