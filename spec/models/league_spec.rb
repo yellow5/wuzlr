@@ -352,4 +352,106 @@ describe League do
       end
     end
   end
+
+  describe '#add_lost' do
+    let(:league) { Fabricate(:league) }
+    let(:user) { Fabricate(:user) }
+    let(:finished_at) { 1.hour.ago }
+
+    def do_invoke
+      league.add_lost(user, finished_at)
+    end
+
+    it 'raises an error without arguments' do
+      expect { league.add_lost }.should raise_error(ArgumentError, /wrong number of arguments/)
+    end
+
+    it 'raises an error with one argument' do
+      expect { league.add_lost(user) }.should raise_error(ArgumentError, /wrong number of arguments/)
+    end
+
+    context 'with existing player stat' do
+      let!(:league_stat) { Fabricate(:league_stat, :league => league, :user => user) }
+
+      it 'does not create a new league stat record' do
+        expect { do_invoke }.should_not change { league.stats.count }
+      end
+
+      it 'increments played count for stat' do
+        expect { do_invoke }.should change { league_stat.reload.played }.by(1)
+      end
+
+      it 'increments lost count for stat' do
+        expect { do_invoke }.should change { league_stat.reload.lost }.by(1)
+      end
+
+      it 'updates win_percent for stat' do
+        league_stat.update_attributes!(:played => 1, :won => 1, :win_percent => 100)
+        expect { do_invoke }.should change { league_stat.reload.win_percent }.to(50)
+      end
+
+      it 'updates last_played_at for stat' do
+        expect { do_invoke }.should change { league_stat.reload.last_played_at.to_s }.to(finished_at.to_s)
+      end
+
+      it 'updates last_lost_at for stat' do
+        expect { do_invoke }.should change { league_stat.reload.last_lost_at.to_s }.to(finished_at.to_s)
+      end
+
+      context 'stat.losing_streak > stat.longest_losing_streak' do
+        before { league_stat.update_attributes!(:longest_losing_streak => 0) }
+
+        it 'updates longest_losing_streak for stat' do
+          expect { do_invoke }.should change { league_stat.reload.longest_losing_streak }.to(1)
+        end
+      end
+
+      context 'stat.losing_streak is not > stat.longest_losing_streak' do
+        before { league_stat.update_attributes!(:longest_losing_streak => 10) }
+
+        it 'does not change longest_losing_streak for stat' do
+          expect { do_invoke }.should_not change { league_stat.reload.longest_losing_streak }
+        end
+      end
+    end
+
+    context 'without existing player stat' do
+      let(:newest_league_stat) { league.stats.last }
+
+      it 'creates a new league stat record for player' do
+        expect { do_invoke }.should change { league.stats.count }.by(1)
+        newest_league_stat.user.should eq(user)
+      end
+
+      it 'assigns played to stat' do
+        do_invoke
+        newest_league_stat.played.should eq(1)
+      end
+
+      it 'assigns lost to stat' do
+        do_invoke
+        newest_league_stat.lost.should eq(1)
+      end
+
+      it 'assigns win_percent to stat' do
+        do_invoke
+        newest_league_stat.win_percent.should eq(0)
+      end
+
+      it 'assigns last_played_at received value to stat' do
+        do_invoke
+        newest_league_stat.last_played_at.to_s.should eq(finished_at.to_s)
+      end
+
+      it 'assigns last_lost_at received value to stat' do
+        do_invoke
+        newest_league_stat.last_lost_at.to_s.should eq(finished_at.to_s)
+      end
+
+      it 'assigns longest_losing_streak to stat' do
+        do_invoke
+        newest_league_stat.longest_losing_streak.should eq(1)
+      end
+    end
+  end
 end
