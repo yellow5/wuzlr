@@ -221,4 +221,135 @@ describe League do
       end
     end
   end
+
+  describe '#add_win' do
+    let(:league) { Fabricate(:league) }
+    let(:user) { Fabricate(:user) }
+    let(:finished_at) { 1.hour.ago }
+
+    def do_invoke
+      league.add_win(user, finished_at)
+    end
+
+    it 'raises an error without arguments' do
+      expect { league.add_win }.should raise_error(ArgumentError, /wrong number of arguments/)
+    end
+
+    context 'with existing player stat' do
+      let!(:league_stat) { Fabricate(:league_stat, :league => league, :user => user) }
+
+      it 'does not create a new league stat record' do
+        expect { do_invoke }.should_not change { league.stats.count }
+      end
+
+      it 'increments played count for stat' do
+        expect { do_invoke }.should change { league_stat.reload.played }.by(1)
+      end
+
+      it 'increments won count for stat' do
+        expect { do_invoke }.should change { league_stat.reload.won }.by(1)
+      end
+
+      it 'updates win_percent for stat' do
+        expect { do_invoke }.should change { league_stat.reload.win_percent }.to(100)
+      end
+
+      context 'with finished_at argument' do
+        it 'updates last_played_at to received value for stat' do
+          expect { do_invoke }.should change { league_stat.reload.last_played_at.to_s }.to(finished_at.to_s)
+        end
+
+        it 'updates last_won_at to received value for stat' do
+          expect { do_invoke }.should change { league_stat.reload.last_won_at.to_s }.to(finished_at.to_s)
+        end
+      end
+
+      context 'without finished_at argument' do
+        let!(:right_now) { Time.now.utc }
+
+        before { Time.stubs(:now).returns(right_now) }
+
+        it 'updates last_played_at to Time.now for stat' do
+          expect { league.add_win(user) }.should change { league_stat.reload.last_played_at.to_s }.to(right_now.to_s)
+        end
+
+        it 'updates last_won_at to Time.now for stat' do
+          expect { league.add_win(user) }.should change { league_stat.reload.last_won_at.to_s }.to(right_now.to_s)
+        end
+      end
+
+      context 'stat.winning_streak > stat.longest_winning_streak' do
+        before { league_stat.update_attributes!(:longest_winning_streak => 0) }
+
+        it 'updates longest_winning_streak for stat' do
+          expect { do_invoke }.should change { league_stat.reload.longest_winning_streak }.to(1)
+        end
+      end
+
+      context 'stat.winning_streak is not > stat.longest_winning_streak' do
+        before { league_stat.update_attributes!(:longest_winning_streak => 10) }
+
+        it 'does not change longest_winning_streak for stat' do
+          expect { do_invoke }.should_not change { league_stat.reload.longest_winning_streak }
+        end
+      end
+    end
+
+    context 'without existing player stat' do
+      let(:newest_league_stat) { league.stats.last }
+
+      it 'creates a new league stat record for player' do
+        expect { do_invoke }.should change { league.stats.count }.by(1)
+        newest_league_stat.user.should eq(user)
+      end
+
+      it 'assigns played to stat' do
+        do_invoke
+        newest_league_stat.played.should eq(1)
+      end
+
+      it 'assigns won to stat' do
+        do_invoke
+        newest_league_stat.won.should eq(1)
+      end
+
+      it 'assigns win_percent to stat' do
+        do_invoke
+        newest_league_stat.win_percent.should eq(100)
+      end
+
+      context 'with finished_at argument' do
+        it 'assigns last_played_at received value to stat' do
+          do_invoke
+          newest_league_stat.last_played_at.to_s.should eq(finished_at.to_s)
+        end
+
+        it 'assigns last_won_at received value to stat' do
+          do_invoke
+          newest_league_stat.last_won_at.to_s.should eq(finished_at.to_s)
+        end
+      end
+
+      context 'without finished_at argument' do
+        let!(:right_now) { Time.now.utc }
+
+        before { Time.stubs(:now).returns(right_now) }
+
+        it 'assigns last_played_at Time.now to stat' do
+          league.add_win(user)
+          newest_league_stat.last_played_at.to_s.should eq(right_now.to_s)
+        end
+
+        it 'assigns last_won_at Time.now to stat' do
+          league.add_win(user)
+          newest_league_stat.last_won_at.to_s.should eq(right_now.to_s)
+        end
+      end
+
+      it 'assigns longest_winning_streak to stat' do
+        do_invoke
+        newest_league_stat.longest_winning_streak.should eq(1)
+      end
+    end
+  end
 end
