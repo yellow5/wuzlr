@@ -12,7 +12,7 @@ gem "compass"
 gem "pg"
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.6"
+  gem "rspec-rails", "~> 2.7"
 end
 
 group :test do
