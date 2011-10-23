@@ -79,4 +79,32 @@ describe Match do
       end
     end
   end
+
+  describe '#loser' do
+    let(:match) { Match.new }
+
+    context 'winner is red' do
+      before { match.stubs(:winner).returns('red') }
+
+      it 'returns blue' do
+        match.loser.should eq('blue')
+      end
+    end
+
+    context 'winner is blue' do
+      before { match.stubs(:winner).returns('blue') }
+
+      it 'returns red' do
+        match.loser.should eq('red')
+      end
+    end
+
+    context 'winner is nil' do
+      before { match.stubs(:winner).returns(nil) }
+
+      it 'returns nil' do
+        match.loser.should be_nil
+      end
+    end
+  end
 end
