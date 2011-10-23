@@ -107,4 +107,16 @@ describe Match do
       end
     end
   end
+
+  describe '#loser_score' do
+    let(:match) { Match.new(:red_score => 5, :blue_score => 7) }
+
+    it 'returns score for loser' do
+      match.stubs(:loser).returns('red')
+      match.loser_score.should eq(5)
+
+      match.stubs(:loser).returns('blue')
+      match.loser_score.should eq(7)
+    end
+  end
 end
