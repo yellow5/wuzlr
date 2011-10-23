@@ -159,4 +159,34 @@ describe Match do
       end
     end
   end
+
+  describe '#losers' do
+    let(:match) { Fabricate(:match) }
+    let(:red_player) { Fabricate(:match_player, :match => match, :team => 'red') }
+    let(:blue_player) { Fabricate(:match_player, :match => match, :team => 'blue') }
+
+    context 'loser is red' do
+      before { match.stubs(:loser).returns('red') }
+
+      it 'returns red players' do
+        match.losers.should eq([red_player.player])
+      end
+    end
+
+    context 'loser is blue' do
+      before { match.stubs(:loser).returns('blue') }
+
+      it 'returns blue players' do
+        match.losers.should eq([blue_player.player])
+      end
+    end
+
+    context 'loser is nil' do
+      before { match.stubs(:loser).returns(nil) }
+
+      it 'returns nil' do
+        match.losers.should be_nil
+      end
+    end
+  end
 end
