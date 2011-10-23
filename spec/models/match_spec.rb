@@ -129,4 +129,34 @@ describe Match do
       blue_match.score_difference.should eq(3)
     end
   end
+
+  describe '#winners' do
+    let(:match) { Fabricate(:match) }
+    let(:red_player) { Fabricate(:match_player, :match => match, :team => 'red') }
+    let(:blue_player) { Fabricate(:match_player, :match => match, :team => 'blue') }
+
+    context 'winner is red' do
+      before { match.stubs(:winner).returns('red') }
+
+      it 'returns red players' do
+        match.winners.should eq([red_player.player])
+      end
+    end
+
+    context 'winner is blue' do
+      before { match.stubs(:winner).returns('blue') }
+
+      it 'returns blue players' do
+        match.winners.should eq([blue_player.player])
+      end
+    end
+
+    context 'winner is nil' do
+      before { match.stubs(:winner).returns(nil) }
+
+      it 'returns nil' do
+        match.winners.should be_nil
+      end
+    end
+  end
 end
