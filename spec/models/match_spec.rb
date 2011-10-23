@@ -119,4 +119,14 @@ describe Match do
       match.loser_score.should eq(7)
     end
   end
+
+  describe '#score_difference' do
+    let(:red_match) { Match.new(:red_score => 10, :blue_score => 7) }
+    let(:blue_match) { Match.new(:blue_score => 10, :red_score => 7) }
+
+    it 'returns absolute value of difference between scores' do
+      red_match.score_difference.should eq(3)
+      blue_match.score_difference.should eq(3)
+    end
+  end
 end
