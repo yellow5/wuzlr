@@ -53,4 +53,30 @@ describe Match do
   describe 'validations' do
     it { should validate_presence_of(:league) }
   end
+
+  describe '#winner' do
+    context 'red_score > blue_score' do
+      let(:match) { Match.new(:red_score => 10, :blue_score => 0) }
+
+      it 'returns red' do
+        match.winner.should eq('red')
+      end
+    end
+
+    context 'blue_score > red_score' do
+      let(:match) { Match.new(:blue_score => 10, :red_score => 0) }
+
+      it 'returns blue' do
+        match.winner.should eq('blue')
+      end
+    end
+
+    context 'blue_score == red_score' do
+      let(:match) { Match.new(:blue_score => 0, :red_score => 0) }
+
+      it 'returns nil' do
+        match.winner.should be_nil
+      end
+    end
+  end
 end
