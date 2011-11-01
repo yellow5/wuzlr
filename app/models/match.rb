@@ -104,7 +104,7 @@ class Match < ActiveRecord::Base
   end
   
   def duration_in_seconds
-    (duration.min * 60) + duration.sec
+    finished_at - started_at
   end
   
   def team_with(user)
