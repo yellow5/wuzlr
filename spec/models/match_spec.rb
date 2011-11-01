@@ -281,4 +281,43 @@ describe Match do
       end
     end
   end
+
+  describe '#players_for' do
+    let(:red_player) { User.new }
+    let(:blue_player) { User.new }
+    let(:red_players) { [ red_player ] }
+    let(:blue_players) { [ blue_player ] }
+    let(:match) { Match.new }
+
+    before do
+      match.stubs(:red_players).returns(red_players)
+      match.stubs(:blue_players).returns(blue_players)
+    end
+
+    def do_invoke(team)
+      match.players_for(team)
+    end
+
+    it 'raises an error without an argument' do
+      expect { match.players_for }.should raise_error(ArgumentError)
+    end
+
+    context 'team is red' do
+      it 'returns red players' do
+        do_invoke('red').should eq(red_players)
+      end
+    end
+
+    context 'team is blue' do
+      it 'returns blue players' do
+        do_invoke('blue').should eq(blue_players)
+      end
+    end
+
+    context 'team is nil' do
+      it 'returns nil' do
+        do_invoke(nil).should be_nil
+      end
+    end
+  end
 end
