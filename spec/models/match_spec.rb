@@ -248,4 +248,37 @@ describe Match do
       end
     end
   end
+
+  describe '#team_without' do
+    let(:user) { User.new }
+    let(:match) { Match.new }
+
+    subject { match.team_without(user) }
+
+    it 'raises an error without an argument' do
+      expect { match.team_without }.should raise_error(ArgumentError)
+    end
+
+    context 'red players include user' do
+      before { match.stubs(:red_players).returns([user]) }
+
+      it 'returns blue' do
+        subject.should eq('blue')
+      end
+    end
+
+    context 'blue players include user' do
+      before { match.stubs(:blue_players).returns([user]) }
+
+      it 'returns red' do
+        subject.should eq('red')
+      end
+    end
+
+    context 'no players include user' do
+      it 'returns nil' do
+        subject.should be_nil
+      end
+    end
+  end
 end
