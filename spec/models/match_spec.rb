@@ -189,4 +189,17 @@ describe Match do
       end
     end
   end
+
+  describe '#duration' do
+    let(:started_at) { 1.hour.ago }
+    let(:finished_at) { started_at + 10.minutes }
+    let(:expected_duration) { Time.at(finished_at - started_at) }
+    let(:match) { Match.new(:started_at => started_at, :finished_at => finished_at) }
+
+    subject { match.duration }
+
+    it 'returns time difference of finished_at and started_at as Time' do
+      subject.should eq(expected_duration)
+    end
+  end
 end
