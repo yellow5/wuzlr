@@ -320,4 +320,36 @@ describe Match do
       end
     end
   end
+
+  describe '#score_for' do
+    let(:expected_red_score) { 7 }
+    let(:expected_blue_score) { 9 }
+    let(:match) { Match.new(:red_score => expected_red_score, :blue_score => expected_blue_score) }
+
+    def do_invoke(team)
+      match.score_for(team)
+    end
+
+    it 'raises an error without an argument' do
+      expect { match.score_for }.should raise_error(ArgumentError)
+    end
+
+    context 'team is red' do
+      it 'returns red score' do
+        do_invoke('red').should eq(expected_red_score)
+      end
+    end
+
+    context 'team is blue' do
+      it 'returns blue score' do
+        do_invoke('blue').should eq(expected_blue_score)
+      end
+    end
+
+    context 'team is nil' do
+      it 'returns nil' do
+        do_invoke(nil).should be_nil
+      end
+    end
+  end
 end
