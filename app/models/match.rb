@@ -144,21 +144,21 @@ class Match < ActiveRecord::Base
   private
 
   def players_on_both_sides
-    errors.add_to_base "Need at least one blue player" if blue_players.empty?
-    errors.add_to_base "Need at least one red player"  if red_players.empty?
+    errors.add :base, "Need at least one blue player" if blue_players.empty?
+    errors.add :base, "Need at least one red player"  if red_players.empty?
   end
   
   def players_are_unique
     unless players == players.uniq
       players.collect { |p| p if players.count(p) > 1 }.compact.uniq.each do |p|
-        errors.add_to_base "#{p.name} can only play in one position"
+        errors.add :base, "#{p.name} can only play in one position"
       end
     end
   end
   
   def scores
     unless (red_score == 10) ^ (blue_score == 10)
-      errors.add_to_base "One team only must score 10"
+      errors.add :base, "One team only must score 10"
     end
   end
 end
