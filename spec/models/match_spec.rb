@@ -101,8 +101,8 @@ describe Match do
       subject { match }
 
       context 'validations' do
-        let(:player1) { User.new }
-        let(:player2) { User.new }
+        let(:player1) { Fabricate.build(:user) }
+        let(:player2) { Fabricate.build(:user) }
 
         it { should validate_presence_of(:started_at) }
 
@@ -119,6 +119,19 @@ describe Match do
 
           match.stubs(:red_players).returns([player1])
           match.stubs(:blue_players).returns([player2])
+          subject.valid?.should be_true
+        end
+
+        it 'validates that players are unique' do
+          match.stubs(:red_players).returns([player1])
+          match.stubs(:blue_players).returns([player2])
+
+          match.stubs(:players).returns([player1, player1, player2])
+          subject.valid?.should be_false
+          subject.errors.full_messages.should include("#{player1.name} can only play in one position")
+          subject.errors.full_messages.should_not include("#{player2.name} can only play in one position")
+
+          match.stubs(:players).returns([player1, player2])
           subject.valid?.should be_true
         end
       end

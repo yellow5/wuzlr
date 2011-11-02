@@ -149,10 +149,10 @@ class Match < ActiveRecord::Base
   end
   
   def players_are_unique
-    if players != players.uniq
-      (players - players.uniq).each {|p|
+    unless players == players.uniq
+      players.collect { |p| p if players.count(p) > 1 }.compact.uniq.each do |p|
         errors.add_to_base "#{p.name} can only play in one position"
-      }
+      end
     end
   end
   
