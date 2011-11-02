@@ -54,6 +54,180 @@ describe Match do
     it { should validate_presence_of(:league) }
   end
 
+  describe '#state state machine' do
+    context 'state' do
+      [:planning, :playing, :finished, :recorded].each do |state|
+        it "can be #{state}" do
+          subject.respond_to?("#{state}?").should be_true
+        end
+      end
+
+      it 'defaults to planning' do
+        subject.state.should eq('planning')
+      end
+    end
+
+    context 'planning state' do
+      let(:match) { Fabricate.build(:match, :state => 'planning', :started_at => nil) }
+
+      subject { match }
+
+      context 'kick_off event' do
+        it 'is available' do
+          subject.state_events.should include(:kick_off)
+        end
+
+        it 'can transition to playing' do
+          subject.kick_off_transition.to.should eq('playing')
+        end
+
+        context 'started_at is blank' do
+          let!(:right_now) { Time.now }
+
+          before { Time.stubs(:now).returns(right_now) }
+
+          it 'sets started_at to Time.now' do
+            expect do
+              match.kick_off
+            end.should change { match.started_at }.to(right_now)
+          end
+        end
+      end
+    end
+
+    context 'playing state' do
+      let(:match) { Fabricate.build(:match, :state => 'playing', :started_at => Time.now) }
+
+      subject { match }
+
+      context 'validations' do
+        let(:player1) { User.new }
+        let(:player2) { User.new }
+
+        it { should validate_presence_of(:started_at) }
+
+        it 'validates that both sides have players' do
+          match.stubs(:blue_players).returns([])
+          match.stubs(:red_players).returns([player1])
+          subject.valid?.should be_false
+          subject.errors.full_messages.should include('Need at least one blue player')
+
+          match.stubs(:red_players).returns([])
+          match.stubs(:blue_players).returns([player1])
+          subject.valid?.should be_false
+          subject.errors.full_messages.should include('Need at least one red player')
+
+          match.stubs(:red_players).returns([player1])
+          match.stubs(:blue_players).returns([player2])
+          subject.valid?.should be_true
+        end
+      end
+
+      context 'full_time event' do
+        it 'is available' do
+          subject.state_events.should include(:full_time)
+        end
+
+        it 'can transition to finished' do
+          subject.full_time_transition.to.should eq('finished')
+        end
+      end
+    end
+
+    context 'finished state' do
+      let(:match) { Fabricate.build(:match, :state => 'finished', :blue_score => 10, :red_score => 9) }
+
+      subject { match }
+
+      context 'validations' do
+        it { should validate_presence_of(:finished_at) }
+      end
+
+      context 'record event' do
+        it 'is available' do
+          subject.state_events.should include(:record)
+        end
+
+        it 'can transition to recorded' do
+          subject.record_transition.to.should eq('recorded')
+        end
+
+        context 'match winners' do
+          let!(:player) { Fabricate(:user) }
+
+          before { match.stubs(:winners).returns([player]) }
+
+          it 'adds win for players' do
+            player.expects(:add_win)
+            match.record
+          end
+
+          it 'creates match stat for players' do
+            expect { match.record }.should change { match.stats.count }.by(1)
+            last_stat = match.stats.last
+            last_stat.user.should eq(player)
+            last_stat.won.should be_true
+            last_stat.by.should eq(match.score_difference)
+          end
+
+          it 'adds win to league' do
+            match.league.expects(:add_win)
+            match.record
+          end
+        end
+
+        context 'match losers' do
+          let!(:player) { Fabricate(:user) }
+
+          before { match.stubs(:losers).returns([player]) }
+
+          it 'adds loss for players' do
+            player.expects(:add_lost)
+            match.record
+          end
+
+          it 'creates match stat for players' do
+            expect { match.record }.should change { match.stats.count }.by(1)
+            last_stat = match.stats.last
+            last_stat.user.should eq(player)
+            last_stat.won.should be_false
+            last_stat.by.should eq(match.score_difference)
+          end
+
+          it 'adds loss to league' do
+            match.league.expects(:add_lost)
+            match.record
+          end
+        end
+      end
+    end
+
+    context 'recorded state' do
+      let(:match) { Fabricate.build(:match, :state => 'recorded') }
+
+      subject { match }
+
+      context 'validations' do
+        it { should ensure_inclusion_of(:red_score).in_range(0..10) }
+        it { should ensure_inclusion_of(:blue_score).in_range(0..10) }
+
+        it 'validates that red_score or blue_score is 10' do
+          match.red_score = match.blue_score = 0
+          subject.valid?.should be_false
+          subject.errors.full_messages.should include('One team only must score 10')
+
+          match.red_score  = 10
+          match.blue_score = 0
+          subject.valid?.should be_true
+
+          match.blue_score = 10
+          match.red_score  = 0
+          subject.valid?.should be_true
+        end
+      end
+    end
+  end
+
   describe '#winner' do
     context 'red_score > blue_score' do
       let(:match) { Match.new(:red_score => 10, :blue_score => 0) }
