@@ -66,4 +66,21 @@ describe User do
     it { should include(:password_confirmation) }
     it { should include(:remember_me) }
   end
+
+  context 'before save' do
+    context 'email is mhaskins@changehealthcare.com' do
+      let(:user) { Fabricate.build(:user, :email => 'mhaskins@changehealthcare.com') }
+      let(:sprinkles) { 'Michael "Sprinkles" Haskins' }
+
+      it 'changes name to Michael "Sprinkles" Haskins' do
+        expect { user.save! }.should change { user.name }.to(sprinkles)
+
+        user.name = 'Michael Haskins'
+        expect { user.save! }.should change { user.name }.to(sprinkles)
+
+        user.name = 'Trololo'
+        expect { user.save! }.should change { user.name }.to(sprinkles)
+      end
+    end
+  end
 end
