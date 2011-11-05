@@ -56,4 +56,14 @@ describe User do
   describe 'validations' do
     it { should validate_presence_of(:name) }
   end
+
+  describe 'accessible attributes' do
+    subject { User.accessible_attributes }
+
+    it { should include(:name) }
+    it { should include(:email) }
+    it { should include(:password) }
+    it { should include(:password_confirmation) }
+    it { should include(:remember_me) }
+  end
 end
