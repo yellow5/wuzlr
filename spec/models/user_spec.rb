@@ -83,4 +83,29 @@ describe User do
       end
     end
   end
+
+  describe '#win_p' do
+    let(:user) { User.new }
+
+    context 'played is > 0' do
+      before { user.played = 10 }
+
+      it 'returns the percentage of games won' do
+        [1, 4, 7].each do |won|
+          user.won = won
+          user.win_p.should eq(won * 10)
+        end
+      end
+    end
+
+    context 'played is not > 0' do
+      it 'returns 0' do
+        user.won = 1
+        [0, -1].each do |played|
+          user.played = played
+          user.win_p.should eq(0)
+        end
+      end
+    end
+  end
 end
