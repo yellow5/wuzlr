@@ -108,4 +108,29 @@ describe User do
       end
     end
   end
+
+  describe '#lose_p' do
+    let(:user) { User.new }
+
+    context 'played is > 0' do
+      before { user.played = 10 }
+
+      it 'returns the percentage of games lost' do
+        [1, 4, 7].each do |lost|
+          user.lost = lost
+          user.lose_p.should eq(lost * 10)
+        end
+      end
+    end
+
+    context 'played is not > 0' do
+      it 'returns 0' do
+        user.lost = 1
+        [0, -1].each do |played|
+          user.played = played
+          user.lose_p.should eq(0)
+        end
+      end
+    end
+  end
 end
