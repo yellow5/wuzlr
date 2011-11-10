@@ -133,4 +133,36 @@ describe User do
       end
     end
   end
+
+  describe '#matches_per_day' do
+    let!(:user) { Fabricate(:user) }
+    let(:one_month_ago) { 1.month.ago }
+    let(:two_months_ago) { 2.months.ago }
+    let(:three_months_ago) { 3.months.ago }
+    let!(:match1) { Fabricate(:match, :started_at => one_month_ago) }
+    let!(:match2) { Fabricate(:match, :started_at => two_months_ago) }
+    let!(:match3) { Fabricate(:match, :started_at => two_months_ago) }
+    let!(:match4) { Fabricate(:match, :started_at => two_months_ago) }
+    let!(:match5) { Fabricate(:match, :started_at => three_months_ago) }
+    let!(:match6) { Fabricate(:match, :started_at => three_months_ago) }
+    let!(:match_player1) { Fabricate(:match_player, :match => match1, :player => user) }
+    let!(:match_player2) { Fabricate(:match_player, :match => match2, :player => user) }
+    let!(:match_player3) { Fabricate(:match_player, :match => match3, :player => user) }
+    let!(:match_player4) { Fabricate(:match_player, :match => match4, :player => user) }
+    let!(:match_player5) { Fabricate(:match_player, :match => match5, :player => user) }
+    let!(:match_player6) { Fabricate(:match_player, :match => match6, :player => user) }
+    let(:expected_results) do
+      [
+        [ three_months_ago.beginning_of_day, 2 ],
+        [ two_months_ago.beginning_of_day, 3 ],
+        [ one_month_ago.beginning_of_day, 1 ]
+      ]
+    end
+
+    subject { user.matches_per_day }
+
+    it 'returns count of games per day based on started_at ordered by date' do
+      subject.should eq(expected_results)
+    end
+  end
 end
