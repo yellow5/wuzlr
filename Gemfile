@@ -17,7 +17,6 @@ end
 
 group :test do
   gem "pry"
-  gem "ruby-debug19"
   gem "shoulda-matchers"
   gem "fabrication"
   gem "mocha"
