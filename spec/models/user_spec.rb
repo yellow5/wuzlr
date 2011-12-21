@@ -271,4 +271,110 @@ describe User do
       end
     end
   end
+
+  describe '#add_lost' do
+    let(:user) { Fabricate(:user, :longest_losing_streak => 1) }
+    let(:other_user) { Fabricate(:user) }
+    let(:match) do
+      Fabricate(:match, :red_score => 10, :blue_score => 0, :finished_at => Time.now).tap do |m|
+        Fabricate(:match_player, :match => m, :player => user, :team => 'blue')
+        Fabricate(:match_player, :match => m, :player => other_user, :team => 'red')
+      end
+    end
+
+    def add_lost
+      user.add_lost(match)
+    end
+
+    it 'increments played' do
+      expect { add_lost }.should change { user.reload.played }.by(1)
+    end
+
+    it 'increments lost' do
+      expect { add_lost }.should change { user.reload.lost }.by(1)
+    end
+
+    it 'calculates the win/loss percentage' do
+      user.expects(:calculate_win_loss_percentage)
+      add_lost
+    end
+
+    it 'updates last_lost_at' do
+      expect { add_lost }.should change { user.reload.last_lost_at.to_s }.to(match.finished_at.to_s)
+    end
+
+    it 'updates last_played_at' do
+      expect { add_lost }.should change { user.reload.last_played_at.to_s }.to(match.finished_at.to_s)
+    end
+
+    context 'current_streak > longest_losing_streak' do
+      it 'updates longest_losing_streak' do
+        user.stubs(:losing_streak).returns(42)
+        expect { add_lost }.should change { user.reload.longest_losing_streak }.to(42)
+      end
+    end
+
+    context 'current_streak <= longest_losing_streak' do
+      it 'does not update longest_losing_streak' do
+        user.stubs(:losing_streak).returns(0)
+        expect { add_lost }.should_not change { user.reload.longest_losing_streak }
+
+        user.stubs(:losing_streak).returns(user.longest_losing_streak)
+        expect { add_lost }.should_not change { user.reload.longest_losing_streak }
+      end
+    end
+
+    context 'user stats' do
+      context 'without teams' do
+        it 'creates stat with other player as opponent with match data' do
+          expect { add_lost }.should change { user.reload.stats.count }.by(1)
+
+          last_stat = user.stats.last
+          last_stat.other_user.should eq(other_user)
+          last_stat.relation.should eq('opponent')
+          last_stat.won.should be_false
+          last_stat.by.should eq(10)
+        end
+      end
+
+      context 'with teams' do
+        let(:blue_user) { Fabricate(:user) }
+        let(:red_user) { Fabricate(:user) }
+
+        before do
+          Fabricate(:match_player, :match => match, :player => blue_user, :team => 'blue')
+          Fabricate(:match_player, :match => match, :player => red_user, :team => 'red')
+        end
+
+        it 'creates stats for each additional player' do
+          expect { add_lost }.should change { user.reload.stats.count }.by(3)
+        end
+
+        it 'create stat with teammate as ally with match data' do
+          add_lost
+
+          ally_stat = user.stats.first(:conditions => { :relation => 'ally' })
+          ally_stat.other_user.should eq(blue_user)
+          ally_stat.relation.should eq('ally')
+          ally_stat.won.should be_false
+          ally_stat.by.should eq(10)
+        end
+
+        it 'creates stats for other team as opponents with match data' do
+          add_lost
+          opponent_stats = user.stats.all(:conditions => { :relation => 'opponent' })
+          opponent_stats.count.should eq(2)
+
+          expected_user_ids = [ other_user.id, red_user.id ]
+          opponent_stats.collect(&:other_user_id).sort.should eq(expected_user_ids.sort)
+
+          opponent_stats.each do |opponent_stat|
+            opponent_stat.relation.should eq('opponent')
+            opponent_stat.won.should be_false
+            opponent_stat.by.should eq(10)
+          end
+        end
+      end
+    end
+  end
 end
