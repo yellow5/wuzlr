@@ -517,4 +517,13 @@ describe User do
       time_playing.should eq(8)
     end
   end
+
+  describe '#calculate_win_loss_percentage' do
+    it 'assigns the calculated value to user.win_loss_percentage' do
+      user = Fabricate.build(:user, :win_loss_percentage => nil, :won => 7, :lost => 3)
+      expect do
+        user.calculate_win_loss_percentage
+      end.should change { user.win_loss_percentage }.to(70.0)
+    end
+  end
 end
