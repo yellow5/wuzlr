@@ -533,4 +533,11 @@ describe User do
       user.win_loss_percentage_i.should eq(77)
     end
   end
+
+  describe '.wup_wup_playaz' do
+    it 'returns top 5 users based on win_loss_percentage' do
+      User.expects(:all).with(:limit => 5, :order => 'win_loss_percentage DESC')
+      User.wup_wup_playaz
+    end
+  end
 end

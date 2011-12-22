@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
   end
   
   def self.wup_wup_playaz # AKA the players with the best win/loss percentage
-    User.find :all, :limit => 5, :order => "win_loss_percentage DESC"
+    User.all(:limit => 5, :order => "win_loss_percentage DESC")
   end
   
   def lost_per_day
