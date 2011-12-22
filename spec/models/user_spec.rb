@@ -526,4 +526,11 @@ describe User do
       end.should change { user.win_loss_percentage }.to(70.0)
     end
   end
+
+  describe '#win_loss_percentage_i' do
+    it 'returns the integer value of win_loss_percentage' do
+      user = Fabricate.build(:user, :win_loss_percentage => 77.7)
+      user.win_loss_percentage_i.should eq(77)
+    end
+  end
 end
