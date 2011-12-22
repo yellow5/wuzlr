@@ -157,7 +157,7 @@ class User < ActiveRecord::Base
   end
   
   def matches_since(time)
-    matches.find(:all, :conditions => ["finished_at > ?", time]).size
+    matches.all(:conditions => ["finished_at > ?", time]).size
   end
   
   def haskins_sprinkles

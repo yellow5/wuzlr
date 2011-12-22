@@ -377,4 +377,60 @@ describe User do
       end
     end
   end
+
+  describe '#winning_streak' do
+    let(:user) { Fabricate.build(:user) }
+
+    def winning_streak
+      user.winning_streak
+    end
+
+    context 'last_played_at != last_won_at' do
+      before do
+        right_now           = Time.now
+        user.last_played_at = nil
+        user.last_won_at    = right_now
+      end
+
+      it 'returns 0' do
+        winning_streak.should eq(0)
+      end
+    end
+
+    context 'last_played_at == last_won_at' do
+      before do
+        right_now           = Time.now
+        user.last_played_at = right_now
+        user.last_won_at    = right_now
+      end
+
+      context 'last_lost_at is blank' do
+        before { user.last_lost_at = nil }
+
+        it 'returns the value of won' do
+          user.won = 5
+          winning_streak.should eq(5)
+
+          user.won = 7
+          winning_streak.should eq(7)
+        end
+      end
+
+      context 'last_lost_at is not blank' do
+        let(:last_lost_at) { Time.now }
+        let(:mock_matches) { mock('mock_matches') }
+        let(:match_args) do
+          { :conditions => ["finished_at > ?", last_lost_at] }
+        end
+
+        before { user.last_lost_at = last_lost_at }
+
+        it 'returns the number of matches since last loss' do
+          user.expects(:matches).returns(mock_matches)
+          mock_matches.expects(:all).with(match_args).returns([ 1, 2 ])
+          winning_streak.should eq(2)
+        end
+      end
+    end
+  end
 end
