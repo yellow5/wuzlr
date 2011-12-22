@@ -10,6 +10,7 @@ gem "peterpunk-mhash"
 gem "haml"
 gem "compass"
 gem "pg"
+gem "thin"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.7"
