@@ -489,4 +489,32 @@ describe User do
       end
     end
   end
+
+  describe '#time_playing' do
+    let(:user) { Fabricate.build(:user) }
+    let(:mock_matches) { mock('mock_matches') }
+
+    before { user.stubs(:matches).returns(mock_matches) }
+
+    def time_playing
+      user.time_playing
+    end
+
+    it 'only retrieves recorded matches' do
+      mock_matches.expects(:all).with(:conditions => { :state => 'recorded' }).returns([])
+      time_playing
+    end
+
+    it 'returns 0 when no matches are found' do
+      mock_matches.stubs(:all).returns([])
+      time_playing.should be_zero
+    end
+
+    it 'returns the sum of match duration_in_seconds values' do
+      mock_match1 = mock('mock_match1', :duration_in_seconds => 3)
+      mock_match2 = mock('mock_match1', :duration_in_seconds => 5)
+      mock_matches.stubs(:all).returns([mock_match1, mock_match2])
+      time_playing.should eq(8)
+    end
+  end
 end

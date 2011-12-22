@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   
   def time_playing
     time = 0
-    matches.find(:all, :conditions => {:state => "recorded"}).collect {|m| time = time + m.duration_in_seconds }
+    matches.all(:conditions => {:state => "recorded"}).collect {|m| time = time + m.duration_in_seconds }
     time
   end
   
