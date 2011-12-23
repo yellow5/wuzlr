@@ -700,4 +700,54 @@ describe User do
       user.number_matches_with(other_user).should eq(1)
     end
   end
+
+  describe '#nemesis' do
+    let(:user) { Fabricate.build(:user) }
+    let(:opponent) { Fabricate.build(:user) }
+    let(:mock_stats) { mock('mock_stats') }
+    let(:mock_opponents) { mock('mock_opponents') }
+    let(:mock_lost) { mock('mock_lost') }
+    let(:mock_count) { mock('mock_count') }
+
+    context 'without argument' do
+      it 'does not raise an error' do
+        expect { user.nemesis }.should_not raise_error(ArgumentError)
+      end
+
+      it 'returns opponent lost to the most in an array' do
+        user.expects(:stats).returns(mock_stats)
+        mock_stats.expects(:opponents).returns(mock_opponents)
+        mock_opponents.expects(:lost).returns(mock_lost)
+        mock_lost.expects(:count).with(
+          :all,
+          :group => :other_user,
+          :order => 'count_all DESC',
+          :limit => 1
+        ).returns(mock_count)
+        mock_count.expects(:to_a).returns([opponent])
+        user.nemesis.should eq([opponent])
+      end
+    end
+
+    context 'with an argument' do
+      it 'does not raise an error' do
+        expect { user.nemesis(1) }.should_not raise_error(ArgumentError)
+      end
+
+      it 'returns opponent lost to the most in an array' do
+        limit = 5
+        user.expects(:stats).returns(mock_stats)
+        mock_stats.expects(:opponents).returns(mock_opponents)
+        mock_opponents.expects(:lost).returns(mock_lost)
+        mock_lost.expects(:count).with(
+          :all,
+          :group => :other_user,
+          :order => 'count_all DESC',
+          :limit => limit
+        ).returns(mock_count)
+        mock_count.expects(:to_a).returns([opponent])
+        user.nemesis(limit).should eq([opponent])
+      end
+    end
+  end
 end
