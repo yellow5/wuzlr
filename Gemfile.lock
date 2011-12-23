@@ -68,6 +68,9 @@ GEM
     mocha (0.10.0)
       metaclass (~> 0.0.1)
     orm_adapter (0.0.5)
+    parallel (0.5.11)
+    parallel_tests (0.6.13)
+      parallel
     peterpunk-mhash (0.0.8)
     pg (0.11.0)
     polyglot (0.3.3)
@@ -142,6 +145,7 @@ DEPENDENCIES
   formtastic
   haml
   mocha
+  parallel_tests
   peterpunk-mhash
   pg
   pry

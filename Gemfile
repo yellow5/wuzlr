@@ -14,6 +14,7 @@ gem "thin"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.7"
+  gem "parallel_tests"
 end
 
 group :test do
