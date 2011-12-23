@@ -117,7 +117,7 @@ class User < ActiveRecord::Base
   end
   
   def number_matches_against(user)
-    stats.opponents.find(:all, :conditions => {:other_user_id => user}).size
+    stats.opponents.all(:conditions => {:other_user_id => user}).size
   end 
   
   def number_matches_with(user)

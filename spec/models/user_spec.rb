@@ -656,4 +656,26 @@ describe User do
       end
     end
   end
+
+  describe '#number_matches_against' do
+    let(:user) { Fabricate.build(:user) }
+    let(:other_user) { Fabricate.build(:user) }
+    let(:mock_stats) { mock('mock_stats') }
+    let(:mock_opponents) { mock('mock_opponents') }
+
+    it 'raises an error without any arguments' do
+      expect { user.number_matches_against }.should raise_error(ArgumentError)
+    end
+
+    it 'does not raise an error with one argument' do
+      expect { user.number_matches_against(other_user) }.should_not raise_error(ArgumentError)
+    end
+
+    it 'returns count of stats where received user is an opponent' do
+      user.expects(:stats).returns(mock_stats)
+      mock_stats.expects(:opponents).returns(mock_opponents)
+      mock_opponents.expects(:all).with(:conditions => { :other_user_id => other_user }).returns([ 1 ])
+      user.number_matches_against(other_user).should eq(1)
+    end
+  end
 end
