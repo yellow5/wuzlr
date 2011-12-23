@@ -121,7 +121,7 @@ class User < ActiveRecord::Base
   end 
   
   def number_matches_with(user)
-    stats.allies.find(:all, :conditions => {:other_user_id => user}).size
+    stats.allies.all(:conditions => {:other_user_id => user}).size
   end
   
   def nemesis(limit = 1)
