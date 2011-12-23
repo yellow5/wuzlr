@@ -598,4 +598,62 @@ describe User do
       end
     end
   end
+
+  describe '#won_per_day' do
+    let!(:user) { Fabricate(:user) }
+
+    context 'without results' do
+      it 'returns an empty array' do
+        user.won_per_day.should eq([])
+      end
+    end
+
+    context 'with results' do
+      let(:winning_day1) { 5.days.ago }
+      let(:winning_day2) { 3.days.ago }
+      let!(:won_match1) { Fabricate(:match, :started_at => winning_day1) }
+      let!(:won_match2) { Fabricate(:match, :started_at => winning_day1) }
+      let!(:won_match3) { Fabricate(:match, :started_at => winning_day2) }
+      let!(:won_match_player1) { Fabricate(:match_player, :player => user, :match => won_match1) }
+      let!(:won_match_player2) { Fabricate(:match_player, :player => user, :match => won_match2) }
+      let!(:won_match_player3) { Fabricate(:match_player, :player => user, :match => won_match3) }
+      let!(:won_match_stat1) { Fabricate(:match_stat, :user => user, :match => won_match1, :won => true) }
+      let!(:won_match_stat2) { Fabricate(:match_stat, :user => user, :match => won_match2, :won => true) }
+      let!(:won_match_stat3) { Fabricate(:match_stat, :user => user, :match => won_match3, :won => true) }
+      let(:losing_day1) { 9.days.ago }
+      let(:losing_day2) { 7.days.ago }
+      let!(:lost_match1) { Fabricate(:match, :started_at => losing_day1) }
+      let!(:lost_match2) { Fabricate(:match, :started_at => losing_day1) }
+      let!(:lost_match3) { Fabricate(:match, :started_at => losing_day2) }
+      let!(:lost_match_player1) { Fabricate(:match_player, :player => user, :match => lost_match1) }
+      let!(:lost_match_player2) { Fabricate(:match_player, :player => user, :match => lost_match2) }
+      let!(:lost_match_player3) { Fabricate(:match_player, :player => user, :match => lost_match3) }
+      let!(:lost_match_stat1) { Fabricate(:match_stat, :user => user, :match => lost_match1, :won => false) }
+      let!(:lost_match_stat2) { Fabricate(:match_stat, :user => user, :match => lost_match2, :won => false) }
+      let!(:lost_match_stat3) { Fabricate(:match_stat, :user => user, :match => lost_match3, :won => false) }
+      let(:won_per_day) { user.won_per_day.collect{ |win| [ win[0].to_date.to_s, win[1] ] } }
+
+      it 'returns a two dimensional array' do
+        won_per_day.class.should eq(Array)
+        won_per_day.each do |result|
+          result.class.should eq(Array)
+        end
+      end
+
+      it 'returns won match dates in first index of inner array' do
+        first_index_values = won_per_day.collect{ |win| win[0] }
+
+        first_index_values.should include(winning_day1.to_date.to_s)
+        first_index_values.should include(winning_day2.to_date.to_s)
+
+        first_index_values.should_not include(losing_day1.to_date.to_s)
+        first_index_values.should_not include(losing_day2.to_date.to_s)
+      end
+
+      it 'returns win count per day in second index of inner array' do
+        won_per_day.should include([ winning_day1.to_date.to_s, 2 ])
+        won_per_day.should include([ winning_day2.to_date.to_s, 1 ])
+      end
+    end
+  end
 end
