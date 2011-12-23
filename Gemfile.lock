@@ -116,7 +116,7 @@ GEM
       rspec (~> 2.7.0)
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
-    sass (3.1.7)
+    sass (3.1.12)
     seed-fu (2.0.1)
       activerecord (~> 3.0.0)
     sexp_processor (3.0.8)
