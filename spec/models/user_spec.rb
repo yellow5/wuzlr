@@ -750,4 +750,54 @@ describe User do
       end
     end
   end
+
+  describe '#walkovers' do
+    let(:user) { Fabricate.build(:user) }
+    let(:opponent) { Fabricate.build(:user) }
+    let(:mock_stats) { mock('mock_stats') }
+    let(:mock_opponents) { mock('mock_opponents') }
+    let(:mock_won) { mock('mock_won') }
+    let(:mock_count) { mock('mock_count') }
+
+    context 'without argument' do
+      it 'does not raise an error' do
+        expect { user.walkovers }.should_not raise_error(ArgumentError)
+      end
+
+      it 'returns opponent defeated the most in an array' do
+        user.expects(:stats).returns(mock_stats)
+        mock_stats.expects(:opponents).returns(mock_opponents)
+        mock_opponents.expects(:won).returns(mock_won)
+        mock_won.expects(:count).with(
+          :all,
+          :group => :other_user,
+          :order => 'count_all DESC',
+          :limit => 1
+        ).returns(mock_count)
+        mock_count.expects(:to_a).returns([opponent])
+        user.walkovers.should eq([opponent])
+      end
+    end
+
+    context 'with an argument' do
+      it 'does not raise an error' do
+        expect { user.walkovers(1) }.should_not raise_error(ArgumentError)
+      end
+
+      it 'returns opponent defeated the most in an array' do
+        limit = 5
+        user.expects(:stats).returns(mock_stats)
+        mock_stats.expects(:opponents).returns(mock_opponents)
+        mock_opponents.expects(:won).returns(mock_won)
+        mock_won.expects(:count).with(
+          :all,
+          :group => :other_user,
+          :order => 'count_all DESC',
+          :limit => limit
+        ).returns(mock_count)
+        mock_count.expects(:to_a).returns([opponent])
+        user.walkovers(limit).should eq([opponent])
+      end
+    end
+  end
 end
