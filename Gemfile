@@ -10,7 +10,7 @@ gem "peterpunk-mhash"
 gem "haml"
 gem "compass"
 gem "pg"
-gem "thin"
+gem "unicorn"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.8.1"
