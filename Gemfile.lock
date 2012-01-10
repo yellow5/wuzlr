@@ -117,7 +117,7 @@ GEM
     sass (3.1.12)
     seed-fu (2.0.1)
       activerecord (~> 3.0.0)
-    sexp_processor (3.0.9)
+    sexp_processor (3.0.10)
     shoulda-matchers (1.0.0)
     slop (2.1.0)
     state_machine (1.1.0)
