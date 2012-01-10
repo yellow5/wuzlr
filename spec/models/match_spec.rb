@@ -243,7 +243,7 @@ describe Match do
 
   describe '#winner' do
     context 'red_score > blue_score' do
-      let(:match) { Match.new(:red_score => 10, :blue_score => 0) }
+      let(:match) { ::Match.new(:red_score => 10, :blue_score => 0) }
 
       it 'returns red' do
         match.winner.should eq('red')
@@ -251,7 +251,7 @@ describe Match do
     end
 
     context 'blue_score > red_score' do
-      let(:match) { Match.new(:blue_score => 10, :red_score => 0) }
+      let(:match) { ::Match.new(:blue_score => 10, :red_score => 0) }
 
       it 'returns blue' do
         match.winner.should eq('blue')
@@ -259,7 +259,7 @@ describe Match do
     end
 
     context 'blue_score == red_score' do
-      let(:match) { Match.new(:blue_score => 0, :red_score => 0) }
+      let(:match) { ::Match.new(:blue_score => 0, :red_score => 0) }
 
       it 'returns nil' do
         match.winner.should be_nil
@@ -268,7 +268,7 @@ describe Match do
   end
 
   describe '#loser' do
-    let(:match) { Match.new }
+    let(:match) { ::Match.new }
 
     context 'winner is red' do
       before { match.stubs(:winner).returns('red') }
@@ -296,7 +296,7 @@ describe Match do
   end
 
   describe '#loser_score' do
-    let(:match) { Match.new(:red_score => 5, :blue_score => 7) }
+    let(:match) { ::Match.new(:red_score => 5, :blue_score => 7) }
 
     it 'returns score for loser' do
       match.stubs(:loser).returns('red')
@@ -308,8 +308,8 @@ describe Match do
   end
 
   describe '#score_difference' do
-    let(:red_match) { Match.new(:red_score => 10, :blue_score => 7) }
-    let(:blue_match) { Match.new(:blue_score => 10, :red_score => 7) }
+    let(:red_match) { ::Match.new(:red_score => 10, :blue_score => 7) }
+    let(:blue_match) { ::Match.new(:blue_score => 10, :red_score => 7) }
 
     it 'returns absolute value of difference between scores' do
       red_match.score_difference.should eq(3)
@@ -381,7 +381,7 @@ describe Match do
     let(:started_at) { 1.hour.ago }
     let(:finished_at) { started_at + 10.minutes }
     let(:expected_duration) { Time.at(finished_at - started_at) }
-    let(:match) { Match.new(:started_at => started_at, :finished_at => finished_at) }
+    let(:match) { ::Match.new(:started_at => started_at, :finished_at => finished_at) }
 
     subject { match.duration }
 
@@ -394,7 +394,7 @@ describe Match do
     let(:started_at) { 1.hour.ago }
     let(:finished_at) { started_at + 10.minutes }
     let(:expected_seconds) { finished_at - started_at }
-    let(:match) { Match.new(:started_at => started_at, :finished_at => finished_at) }
+    let(:match) { ::Match.new(:started_at => started_at, :finished_at => finished_at) }
 
     subject { match.duration_in_seconds }
 
@@ -405,7 +405,7 @@ describe Match do
 
   describe '#team_with' do
     let(:user) { User.new }
-    let(:match) { Match.new }
+    let(:match) { ::Match.new }
 
     subject { match.team_with(user) }
 
@@ -438,7 +438,7 @@ describe Match do
 
   describe '#team_without' do
     let(:user) { User.new }
-    let(:match) { Match.new }
+    let(:match) { ::Match.new }
 
     subject { match.team_without(user) }
 
@@ -474,7 +474,7 @@ describe Match do
     let(:blue_player) { User.new }
     let(:red_players) { [ red_player ] }
     let(:blue_players) { [ blue_player ] }
-    let(:match) { Match.new }
+    let(:match) { ::Match.new }
 
     before do
       match.stubs(:red_players).returns(red_players)
@@ -511,7 +511,7 @@ describe Match do
   describe '#score_for' do
     let(:expected_red_score) { 7 }
     let(:expected_blue_score) { 9 }
-    let(:match) { Match.new(:red_score => expected_red_score, :blue_score => expected_blue_score) }
+    let(:match) { ::Match.new(:red_score => expected_red_score, :blue_score => expected_blue_score) }
 
     def do_invoke(team)
       match.score_for(team)
