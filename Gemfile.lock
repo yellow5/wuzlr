@@ -67,7 +67,7 @@ GEM
       metaclass (~> 0.0.1)
     orm_adapter (0.0.5)
     parallel (0.5.11)
-    parallel_tests (0.6.13)
+    parallel_tests (0.6.14)
       parallel
     peterpunk-mhash (0.0.8)
     pg (0.12.0)
