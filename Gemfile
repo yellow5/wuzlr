@@ -13,7 +13,7 @@ gem "pg"
 gem "thin"
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.7"
+  gem "rspec-rails", "~> 2.8.1"
   gem "parallel_tests"
 end
 
