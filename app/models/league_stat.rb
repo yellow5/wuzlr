@@ -5,7 +5,7 @@ class LeagueStat < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => :league_id
   
   def self.most_active_leagues(limit=3)
-    LeagueStat.find(:all, :order => 'played DESC', :select => 'DISTINCT league_id, played', :limit => limit).collect! { |ls| ls.league }
+    LeagueStat.select('DISTINCT league_id, played').order('played DESC').limit(limit).collect! { |ls| ls.league }
   end
   
   def winning_streak
@@ -21,6 +21,6 @@ class LeagueStat < ActiveRecord::Base
   private
 
   def matches_since(time)
-    user.matches.count(:conditions => ["finished_at > ? AND league_id = ?", time, league.id])
+    user.matches.where(["finished_at > ? AND league_id = ?", time, league.id]).count
   end
 end
