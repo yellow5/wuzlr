@@ -137,7 +137,7 @@ describe League do
     it 'finds bias on recorded matches' do
       mock_matches = mock
       league.stubs(:matches).returns(mock_matches)
-      mock_matches.expects(:find).with(:all, :conditions => { :state => 'recorded' }).returns([])
+      mock_matches.expects(:where).with(:state => 'recorded').returns([])
       do_invoke
     end
 

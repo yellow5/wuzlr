@@ -23,7 +23,7 @@ class League < ActiveRecord::Base
   end
   
   def matches_per_day
-    results = matches.count(:group => db_date_format(:field => 'started_at', :format => 'YYYY Mon DD'))
+    results = matches.group(db_date_format(:field => 'started_at', :format => 'YYYY Mon DD')).count
     results.map{|k,v| [DateTime.strptime(k,'%Y %b %d'),v] }.sort_by{|e| e[0]}
   end
   
@@ -31,19 +31,19 @@ class League < ActiveRecord::Base
     red_score  = Array.new(10){|i| "Won by #{i+1}"}.map{|e| [e,0]}
     blue_score = Array.new(10){|i| "Won by #{i+1}"}.map{|e| [e,0]}
     
-    matches.find(:all, :conditions => {:state => "recorded"}).each{|r|
+    matches.where(:state => 'recorded').each do |r|
       case r.winner
       when "blue"
         blue_score[r.score_difference - 1][1] += 1
       when "red"
         red_score[r.score_difference - 1][1] += 1
       end
-    }
+    end
     [red_score, blue_score]
   end
   
   def add_win(player,finished_at = Time.now)
-    stat = stats.find(:first, :conditions => {:user_id => player.id}) || stats.new(:user_id => player.id)
+    stat = stats.where(:user_id => player).first || stats.new(:user_id => player.id)
     stat.increment :played
     stat.increment :won
     stat.win_percent            = ((stat.won / stat.played.to_f) * 100).to_i
@@ -56,7 +56,7 @@ class League < ActiveRecord::Base
   end
   
   def add_lost(player, finished_at)
-    stat = stats.find(:first, :conditions => {:user_id => player.id}) || stats.new(:user_id => player.id)
+    stat = stats.where(:user_id => player).first || stats.new(:user_id => player.id)
     stat.increment :played
     stat.increment :lost
     stat.win_percent           = ((stat.won / stat.played.to_f) * 100).to_i
