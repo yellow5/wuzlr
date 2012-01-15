@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   def show
     @user         = User.find(params[:id])
     @user_leagues = @user.leagues
-    @matches      = @user.matches.find(:all, :conditions => {:state => "recorded"}, :limit => 5, :order => 'finished_at DESC')
+    @matches      = @user.matches.where(:state => 'recorded').order('finished_at DESC').limit(5)
 
     @nemesis      = @user.nemesis.first
     @nemesis      = {:user => @nemesis.first, :lost => @nemesis.last, :played => @user.number_matches_against( @nemesis.first )} if @nemesis
@@ -24,9 +24,9 @@ class UsersController < ApplicationController
 
   def compare
     @them           = User.find(params[:id])
-    @their_matches  = @them.matches.find(:all, :conditions => {:state => "recorded"})
+    @their_matches  = @them.matches.where(:state => 'recorded')
     @you            = current_user
-    @your_matches   = @you.matches.find(:all, :conditions => {:state => "recorded"})
+    @your_matches   = @you.matches.where(:state => 'recorded')
   end
 
 private
