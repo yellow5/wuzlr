@@ -8,12 +8,11 @@ class LeaguesController < ApplicationController
   
   # GET /leagues/1
   def show
-    @league       = League.find(params[:id])
-    @subheader    = "Current standings"
-    @stats        = @league.stats.find(:all, :order => "win_percent DESC", :include => :user)
-    @matches      = @league.matches.find(:all, :conditions => {:state => "recorded"}, :limit => 3, :order => 'finished_at ASC')
-    
-    @fifa_teams = FifaTeam.find(:all, :order => "goals_for DESC")
+    @league     = League.find(params[:id])
+    @subheader  = "Current standings"
+    @stats      = @league.stats.order('win_percent DESC').includes(:user)
+    @matches    = @league.matches.where(:state => 'recorded').order('finished_at ASC').limit(3)
+    @fifa_teams = FifaTeam.order('goals_for DESC')
   end
 
   # GET /leagues/new
