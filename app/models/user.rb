@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
   
   def matches_per_day
-    results = matches.count(:group => db_date_format(:field => 'started_at', :format => 'YYYY Mon DD'))
+    results = matches.group(db_date_format(:field => 'started_at', :format => 'YYYY Mon DD')).count
     results.map{|k,v| [DateTime.strptime(k,'%Y %b %d'),v] }.sort_by{|e| e[0]}
   end
   
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   
   def time_playing
     time = 0
-    matches.all(:conditions => {:state => "recorded"}).collect {|m| time = time + m.duration_in_seconds }
+    matches.where(:state => "recorded").collect {|m| time = time + m.duration_in_seconds }
     time
   end
   
@@ -105,39 +105,39 @@ class User < ActiveRecord::Base
   end
   
   def self.wup_wup_playaz # AKA the players with the best win/loss percentage
-    User.all(:limit => 5, :order => "win_loss_percentage DESC")
+    User.order('win_loss_percentage DESC').limit(5)
   end
   
   def lost_per_day
-    match_stats.lost.count(:group => db_date_format(:field => 'matches.started_at', :format => 'YYYY Mon DD'), :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
+    match_stats.lost.joins(:match).group(db_date_format(:field => 'matches.started_at', :format => 'YYYY Mon DD')).count.to_a.map{|k,v| [DateTime.parse(k),v]}
   end
   
   def won_per_day
-    match_stats.won.count(:group => db_date_format(:field => 'matches.started_at', :format => 'YYYY Mon DD'), :joins => :match).to_a.map{|(k,v)| [DateTime.parse(k),v]}
+    match_stats.won.joins(:match).group(db_date_format(:field => 'matches.started_at', :format => 'YYYY Mon DD')).count.to_a.map{|(k,v)| [DateTime.parse(k),v]}
   end
   
   def number_matches_against(user)
-    stats.opponents.all(:conditions => {:other_user_id => user}).size
+    stats.opponents.where(:other_user_id => user).count
   end 
   
   def number_matches_with(user)
-    stats.allies.all(:conditions => {:other_user_id => user}).size
+    stats.allies.where(:other_user_id => user).count
   end
   
   def nemesis(limit = 1)
-    stats.opponents.lost.count(:all, :group => :other_user, :order => "count_all DESC", :limit => limit).to_a
+    stats.opponents.lost.group(:other_user).order('count_all DESC').limit(limit).count.to_a
   end
   
   def walkovers(limit = 1)
-    stats.opponents.won.count(:all, :group => :other_user, :order => "count_all DESC", :limit => limit).to_a
+    stats.opponents.won.group(:other_user).order('count_all DESC').limit(limit).count.to_a
   end
   
   def dream_team(limit = 1)
-    stats.allies.won.count(:all, :group => :other_user, :order => "count_all DESC", :limit => limit).to_a
+    stats.allies.won.group(:other_user).order('count_all DESC').limit(limit).count.to_a
   end
   
   def useless_team(limit = 1)
-    stats.allies.lost.count(:all, :group => :other_user, :order => "count_all DESC", :limit => limit).to_a
+    stats.allies.lost.group(:other_user).order('count_all DESC').limit(limit).count.to_a
   end
   
   private
@@ -157,7 +157,7 @@ class User < ActiveRecord::Base
   end
   
   def matches_since(time)
-    matches.all(:conditions => ["finished_at > ?", time]).size
+    matches.where(['finished_at > ?', time]).count
   end
   
   def haskins_sprinkles

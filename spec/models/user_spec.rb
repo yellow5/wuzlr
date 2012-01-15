@@ -420,14 +420,14 @@ describe User do
         let(:last_lost_at) { Time.now }
         let(:mock_matches) { mock('mock_matches') }
         let(:match_args) do
-          { :conditions => ["finished_at > ?", last_lost_at] }
+          ['finished_at > ?', last_lost_at]
         end
 
         before { user.last_lost_at = last_lost_at }
 
         it 'returns the number of matches since last loss' do
           user.expects(:matches).returns(mock_matches)
-          mock_matches.expects(:all).with(match_args).returns([ 1, 2 ])
+          mock_matches.expects(:where).with(match_args).returns([ 1, 2 ])
           winning_streak.should eq(2)
         end
       end
@@ -476,14 +476,14 @@ describe User do
         let(:last_won_at) { Time.now }
         let(:mock_matches) { mock('mock_matches') }
         let(:match_args) do
-          { :conditions => ["finished_at > ?", last_won_at] }
+          ['finished_at > ?', last_won_at]
         end
 
         before { user.last_won_at = last_won_at }
 
         it 'returns the number of matches since last win' do
           user.expects(:matches).returns(mock_matches)
-          mock_matches.expects(:all).with(match_args).returns([ 1, 2 ])
+          mock_matches.expects(:where).with(match_args).returns([ 1, 2 ])
           losing_streak.should eq(2)
         end
       end
@@ -501,19 +501,19 @@ describe User do
     end
 
     it 'only retrieves recorded matches' do
-      mock_matches.expects(:all).with(:conditions => { :state => 'recorded' }).returns([])
+      mock_matches.expects(:where).with(:state => 'recorded').returns([])
       time_playing
     end
 
     it 'returns 0 when no matches are found' do
-      mock_matches.stubs(:all).returns([])
+      mock_matches.stubs(:where).returns([])
       time_playing.should be_zero
     end
 
     it 'returns the sum of match duration_in_seconds values' do
       mock_match1 = mock('mock_match1', :duration_in_seconds => 3)
       mock_match2 = mock('mock_match1', :duration_in_seconds => 5)
-      mock_matches.stubs(:all).returns([mock_match1, mock_match2])
+      mock_matches.stubs(:where).returns([mock_match1, mock_match2])
       time_playing.should eq(8)
     end
   end
@@ -536,7 +536,9 @@ describe User do
 
   describe '.wup_wup_playaz' do
     it 'returns top 5 users based on win_loss_percentage' do
-      User.expects(:all).with(:limit => 5, :order => 'win_loss_percentage DESC')
+      mock_result = mock('mock_result')
+      User.expects(:order).with('win_loss_percentage DESC').returns(mock_result)
+      mock_result.expects(:limit).with(5)
       User.wup_wup_playaz
     end
   end
@@ -674,7 +676,7 @@ describe User do
     it 'returns count of stats where received user is an opponent' do
       user.expects(:stats).returns(mock_stats)
       mock_stats.expects(:opponents).returns(mock_opponents)
-      mock_opponents.expects(:all).with(:conditions => { :other_user_id => other_user }).returns([ 1 ])
+      mock_opponents.expects(:where).with(:other_user_id => other_user).returns([ 1 ])
       user.number_matches_against(other_user).should eq(1)
     end
   end
@@ -696,7 +698,7 @@ describe User do
     it 'returns count of stats where received user is an ally' do
       user.expects(:stats).returns(mock_stats)
       mock_stats.expects(:allies).returns(mock_allies)
-      mock_allies.expects(:all).with(:conditions => { :other_user_id => other_user }).returns([ 1 ])
+      mock_allies.expects(:where).with(:other_user_id => other_user).returns([ 1 ])
       user.number_matches_with(other_user).should eq(1)
     end
   end
@@ -707,6 +709,9 @@ describe User do
     let(:mock_stats) { mock('mock_stats') }
     let(:mock_opponents) { mock('mock_opponents') }
     let(:mock_lost) { mock('mock_lost') }
+    let(:mock_group) { mock('mock_group') }
+    let(:mock_order) { mock('mock_order') }
+    let(:mock_limit) { mock('mock_limit') }
     let(:mock_count) { mock('mock_count') }
 
     context 'without argument' do
@@ -718,12 +723,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:opponents).returns(mock_opponents)
         mock_opponents.expects(:lost).returns(mock_lost)
-        mock_lost.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => 1
-        ).returns(mock_count)
+        mock_lost.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(1).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([opponent])
         user.nemesis.should eq([opponent])
       end
@@ -739,12 +742,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:opponents).returns(mock_opponents)
         mock_opponents.expects(:lost).returns(mock_lost)
-        mock_lost.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => limit
-        ).returns(mock_count)
+        mock_lost.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(limit).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([opponent])
         user.nemesis(limit).should eq([opponent])
       end
@@ -757,6 +758,9 @@ describe User do
     let(:mock_stats) { mock('mock_stats') }
     let(:mock_opponents) { mock('mock_opponents') }
     let(:mock_won) { mock('mock_won') }
+    let(:mock_group) { mock('mock_group') }
+    let(:mock_order) { mock('mock_order') }
+    let(:mock_limit) { mock('mock_limit') }
     let(:mock_count) { mock('mock_count') }
 
     context 'without argument' do
@@ -768,12 +772,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:opponents).returns(mock_opponents)
         mock_opponents.expects(:won).returns(mock_won)
-        mock_won.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => 1
-        ).returns(mock_count)
+        mock_won.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(1).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([opponent])
         user.walkovers.should eq([opponent])
       end
@@ -789,12 +791,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:opponents).returns(mock_opponents)
         mock_opponents.expects(:won).returns(mock_won)
-        mock_won.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => limit
-        ).returns(mock_count)
+        mock_won.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(limit).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([opponent])
         user.walkovers(limit).should eq([opponent])
       end
@@ -807,6 +807,9 @@ describe User do
     let(:mock_stats) { mock('mock_stats') }
     let(:mock_allies) { mock('mock_allies') }
     let(:mock_won) { mock('mock_won') }
+    let(:mock_group) { mock('mock_group') }
+    let(:mock_order) { mock('mock_order') }
+    let(:mock_limit) { mock('mock_limit') }
     let(:mock_count) { mock('mock_count') }
 
     context 'without argument' do
@@ -818,12 +821,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:allies).returns(mock_allies)
         mock_allies.expects(:won).returns(mock_won)
-        mock_won.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => 1
-        ).returns(mock_count)
+        mock_won.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(1).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([teammate])
         user.dream_team.should eq([teammate])
       end
@@ -839,12 +840,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:allies).returns(mock_allies)
         mock_allies.expects(:won).returns(mock_won)
-        mock_won.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => limit
-        ).returns(mock_count)
+        mock_won.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(limit).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([teammate])
         user.dream_team(limit).should eq([teammate])
       end
@@ -857,6 +856,9 @@ describe User do
     let(:mock_stats) { mock('mock_stats') }
     let(:mock_allies) { mock('mock_allies') }
     let(:mock_lost) { mock('mock_lost') }
+    let(:mock_group) { mock('mock_group') }
+    let(:mock_order) { mock('mock_order') }
+    let(:mock_limit) { mock('mock_limit') }
     let(:mock_count) { mock('mock_count') }
 
     context 'without argument' do
@@ -868,12 +870,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:allies).returns(mock_allies)
         mock_allies.expects(:lost).returns(mock_lost)
-        mock_lost.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => 1
-        ).returns(mock_count)
+        mock_lost.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(1).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([teammate])
         user.useless_team.should eq([teammate])
       end
@@ -889,12 +889,10 @@ describe User do
         user.expects(:stats).returns(mock_stats)
         mock_stats.expects(:allies).returns(mock_allies)
         mock_allies.expects(:lost).returns(mock_lost)
-        mock_lost.expects(:count).with(
-          :all,
-          :group => :other_user,
-          :order => 'count_all DESC',
-          :limit => limit
-        ).returns(mock_count)
+        mock_lost.expects(:group).with(:other_user).returns(mock_group)
+        mock_group.expects(:order).with('count_all DESC').returns(mock_order)
+        mock_order.expects(:limit).with(limit).returns(mock_limit)
+        mock_limit.expects(:count).returns(mock_count)
         mock_count.expects(:to_a).returns([teammate])
         user.useless_team(limit).should eq([teammate])
       end
