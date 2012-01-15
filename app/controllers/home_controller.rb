@@ -4,8 +4,8 @@ class HomeController < ApplicationController
   
   def index
     @leagues = LeagueStat.most_active_leagues
-    @users = User.find(:all, :limit => 15, :order => "created_at DESC")
-    @dedicated = User.find(:all, :limit => 3, :order => "played DESC")
+    @users = User.order('created_at DESC').limit(15)
+    @dedicated = User.order('played DESC').limit(3)
   end
   
 end
