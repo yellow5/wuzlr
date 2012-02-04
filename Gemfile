@@ -11,6 +11,7 @@ gem "haml"
 gem "compass"
 gem "pg"
 gem "unicorn"
+gem "gravatar_image_tag"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.8.1"
