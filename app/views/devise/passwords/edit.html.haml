@@ -2,9 +2,9 @@
 = semantic_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
   = f.error_messages
   = f.hidden_field :reset_password_token
-  - f.inputs do
+  = f.inputs do
     = f.input :password, :as => :password
     = f.input :password_confirmation, :as => :password
-  - f.buttons do
+  = f.buttons do
     = f.commit_button "Change password"
 = render :partial => "devise/shared/links"
