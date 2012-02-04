@@ -24,3 +24,7 @@ group :test do
   gem "fabrication"
   gem "mocha"
 end
+
+group :production do
+  gem "uglifier"
+end
