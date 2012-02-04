@@ -1,10 +1,10 @@
 source "http://rubygems.org"
 source "http://gems.github.com"
 
-gem "rails", "3.0.11"
+gem "rails", "3.1.3"
 gem "devise"
 gem "formtastic"
-gem "seed-fu"
+gem "seed-fu", "~> 2.1.0"
 gem "state_machine"
 gem "peterpunk-mhash"
 gem "haml"
