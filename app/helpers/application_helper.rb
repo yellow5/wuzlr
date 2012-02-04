@@ -7,11 +7,6 @@ module ApplicationHelper
     end
   end
   
-  def gravatar_for_with_default(user, options={})
-    options = { :default => 'wavatar' }.merge options
-    gravatar_for user, options
-  end
-  
   def team_flag_image_for(player, position, total_players, teams)
     team = case
       when position == 0

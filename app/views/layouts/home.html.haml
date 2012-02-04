@@ -43,7 +43,7 @@
           %h3 New players
           %ul.playaz
             - @users.each do |user|
-              %li= link_to gravatar_for_with_default(user), user_path(user), :title => user.name
+              %li= link_to gravatar_image_tag(user.email), user_path(user), :title => user.name
         .g10.m1
           %h3 Most Active leagues
           %ul.laleagua
@@ -54,7 +54,7 @@
           %ul#dedicated-graphs
             - @dedicated.each do |user|
               %li
-                = link_to(raw("#{gravatar_for_with_default(user)} #{user.name}"), user_path(user), :title => user.name)
+                = link_to(raw("#{gravatar_image_tag(user.email)} #{user.name}"), user_path(user), :title => user.name)
                 .games= user.played
     #footer
       .wrapper.clear

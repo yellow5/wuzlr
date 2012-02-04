@@ -9,11 +9,11 @@
     #top.results_top
       .wee
         - @match.red_players.each do |player|
-          = gravatar_for_with_default player
+          = gravatar_image_tag(player.email)
       = f.text_field :red_score, :size => 1, :maxlength => 2
     %a#submit_score.play_game{:href => "javascript:;"} Submit Score
     #bottom.results_bottom
       = f.text_field :blue_score, :size => 1, :maxlength => 2
       .wee
         - @match.blue_players.each do |player|
-          = gravatar_for_with_default player
+          = gravatar_image_tag(player.email)

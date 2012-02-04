@@ -20,7 +20,7 @@
       %th.nosort{:title => "Equivalent Fifa Team"} Rank
     - @stats.each_with_index do |s, i|
       %tr.phatass
-        %td.youruglymug= link_to gravatar_for_with_default(s.user), user_path(s.user), :title => s.user.name
+        %td.youruglymug= link_to gravatar_image_tag(s.user.email), user_path(s.user), :title => s.user.name
         %td= s.played
         %td= s.won
         %td= s.lost

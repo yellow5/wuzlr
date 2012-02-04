@@ -8,7 +8,7 @@
     - if user_signed_in? && @user != current_user
       %span.rmv= link_to(raw('<span>Compare yourself with this dude</span>'), compare_user_path(@user))
   .ava.g3.m1
-    = gravatar_for_with_default @user, :size => 100
+    = gravatar_image_tag(@user.email, :gravatar => { :size => 100 })
 %hr/
 - unless @user_leagues.empty?
   .clear.leagues
@@ -23,7 +23,7 @@
     - if @nemesis && @walkover
       .g8.nemesis
         %h2 Nemesis
-        = link_to gravatar_for_with_default( @nemesis[:user] ), user_path(@nemesis[:user]), :title => @nemesis[:user].name
+        = link_to gravatar_image_tag(@nemesis[:user].email), user_path(@nemesis[:user]), :title => @nemesis[:user].name
         %dl
           %dt
             Matches Played: #{@nemesis[:played]}
@@ -31,7 +31,7 @@
             Matches Lost: #{@nemesis[:lost]}
       .g8.m1.walkover
         %h2 Walkover
-        = link_to gravatar_for_with_default( @walkover[:user] ), user_path(@walkover[:user]), :title => @walkover[:user].name
+        = link_to gravatar_image_tag(@walkover[:user].email), user_path(@walkover[:user]), :title => @walkover[:user].name
         %dl
           %dt
             Matches Played: #{@walkover[:played]}
@@ -41,7 +41,7 @@
     .clear.comparisons
       .g8.dreamteam
         %h2 Dream Team
-        = link_to gravatar_for_with_default( @dream_team[:user] ), user_path(@dream_team[:user]), :title => @dream_team[:user].name
+        = link_to gravatar_image_tag(@dream_team[:user].email), user_path(@dream_team[:user]), :title => @dream_team[:user].name
         %dl
           %dt
             Matches Played: #{@dream_team[:played]}
@@ -49,7 +49,7 @@
             Matches Won: #{@dream_team[:won]}
       .g8.m1.useless
         %h2 Useless
-        = link_to gravatar_for_with_default( @useless[:user] ), user_path(@useless[:user]), :title => @useless[:user].name
+        = link_to gravatar_image_tag(@useless[:user].email), user_path(@useless[:user]), :title => @useless[:user].name
         %dl
           %dt
             Matches Played: #{@useless[:played]}

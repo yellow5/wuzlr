@@ -57,7 +57,7 @@
             %p Players with beastly recent form
             %ul.display_form.clear
               - @wup_wup_playaz.each do |playaplaya|
-                %li= link_to(raw("#{gravatar_for_with_default playaplaya} #{win_loss_bar(playaplaya, :class => 'win_loss_bar')}"), user_path(playaplaya), :title => playaplaya.name)
+                %li= link_to(raw("#{gravatar_image_tag(playaplaya.email)} #{win_loss_bar(playaplaya, :class => 'win_loss_bar')}"), user_path(playaplaya), :title => playaplaya.name)
     #footer
       .wrapper.clear
         .g6

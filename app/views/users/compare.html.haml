@@ -4,8 +4,8 @@
 .clear
 .cop.clear
   .compare_grav.clear
-    = link_to gravatar_for_with_default(@you, :size => 100), user_path(@you)
-    VS #{link_to gravatar_for_with_default(@them, :size => 100), user_path(@them)}
+    = link_to gravatar_image_tag(@you.email, :gravatar => { :size => 100 }), user_path(@you)
+    VS #{link_to gravatar_image_tag(@them.email, :gravatar => { :size => 100 }), user_path(@them)}
   .cwrap
     %ol#compare-labels
       %li Win %
