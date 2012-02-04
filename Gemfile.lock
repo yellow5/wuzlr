@@ -64,7 +64,7 @@ GEM
     mocha (0.10.3)
       metaclass (~> 0.0.1)
     orm_adapter (0.0.6)
-    parallel (0.5.12)
+    parallel (0.5.13)
     parallel_tests (0.6.17)
       parallel
     peterpunk-mhash (0.0.8)
@@ -110,7 +110,7 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.8.0)
-    sass (3.1.12)
+    sass (3.1.13)
     seed-fu (2.0.1)
       activerecord (~> 3.0.0)
     shoulda-matchers (1.0.0)
