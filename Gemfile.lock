@@ -33,12 +33,7 @@ GEM
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
-    chunky_png (1.2.5)
     coderay (1.0.5)
-    compass (0.11.7)
-      chunky_png (~> 1.2)
-      fssm (>= 0.2.7)
-      sass (~> 3.1)
     devise (1.5.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
@@ -50,7 +45,6 @@ GEM
     fabrication (1.2.0)
     formtastic (2.1.0.beta1)
       actionpack (~> 3.0)
-    fssm (0.2.8.1)
     gravatar_image_tag (1.0.0)
     haml (3.1.4)
     hike (1.2.1)
@@ -119,7 +113,6 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.8.0)
-    sass (3.1.13)
     seed-fu (2.1.0)
       activerecord (~> 3.1.0)
       activesupport (~> 3.1.0)
@@ -150,7 +143,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  compass
   devise
   fabrication
   formtastic (= 2.1.0.beta1)
