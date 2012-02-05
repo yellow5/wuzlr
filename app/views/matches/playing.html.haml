@@ -14,5 +14,5 @@
     var secs = seconds%60;
     return mins.toString().pad(2, '0', 'left')+':'+secs.toString().pad(2, '0', 'left');
   };
-- form_tag full_time_league_match_path(@league, @match), :method => :put do
+= form_tag full_time_league_match_path(@league, @match), :method => :put do
   = submit_tag "Full time", :class => 'tim'
