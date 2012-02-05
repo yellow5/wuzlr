@@ -4,15 +4,7 @@
   %head{:profile => "http://gmpg.org/xfn/11"}
     %link{:href => "http://chuzlr.com/images/favicon.png", :rel => "shortcut icon", :type => "image/png"}/
     = stylesheet_link_tag 'application'
-    %script{:src => "http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/mootools-1.2.3.1-more.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/sorting_table.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/paginating_table.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/swfobject.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/cufon-yui.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/museo.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/application.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/squeezebox.js", :type => "text/javascript"}
+    = javascript_include_tag 'application'
   %body
     .wrapper
       #header
