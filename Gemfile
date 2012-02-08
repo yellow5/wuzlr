@@ -11,6 +11,7 @@ gem "haml"
 gem "pg"
 gem "unicorn"
 gem "gravatar_image_tag"
+gem "dynamic_form"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.8.1"

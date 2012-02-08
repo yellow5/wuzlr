@@ -38,6 +38,7 @@ GEM
       orm_adapter (~> 0.0.3)
       warden (~> 1.1)
     diff-lcs (1.1.3)
+    dynamic_form (1.1.4)
     erubis (2.7.0)
     execjs (1.3.0)
       multi_json (~> 1.0)
@@ -142,6 +143,7 @@ PLATFORMS
 
 DEPENDENCIES
   devise
+  dynamic_form
   fabrication
   formtastic (= 2.1.0.beta1)
   gravatar_image_tag
