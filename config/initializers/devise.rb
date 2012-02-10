@@ -4,6 +4,9 @@ Devise.setup do |config|
   # Configure values that are downcased
   config.case_insensitive_keys = [:email]
 
+  # Limit the time that a password can be reset
+  config.reset_password_within = 2.hours
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
   config.mailer_sender = "noreply@chuzlr.com"
