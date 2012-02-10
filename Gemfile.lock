@@ -67,7 +67,7 @@ GEM
     parallel_tests (0.6.18)
       parallel
     peterpunk-mhash (0.0.8)
-    pg (0.12.2)
+    pg (0.13.0)
     polyglot (0.3.3)
     pry (0.9.8.2)
       coderay (~> 1.0.5)
