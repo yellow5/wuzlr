@@ -18,7 +18,6 @@ describe User do
     it { should have_db_column(:encrypted_password).of_type(:string).with_options(:limit => 128, :default => '', :null => false) }
     it { should have_db_column(:reset_password_token).of_type(:string) }
     it { should have_db_column(:reset_password_sent_at).of_type(:datetime) }
-    it { should have_db_column(:remember_token).of_type(:string) }
     it { should have_db_column(:remember_created_at).of_type(:datetime) }
     it { should have_db_column(:sign_in_count).of_type(:integer).with_options(:default => 0) }
     it { should have_db_column(:current_sign_in_at).of_type(:datetime) }
@@ -37,6 +36,8 @@ describe User do
     it { should have_db_column(:longest_winning_streak).of_type(:integer).with_options(:default => 0) }
     it { should have_db_column(:longest_losing_streak).of_type(:integer).with_options(:default => 0) }
     it { should have_db_column(:win_loss_percentage).of_type(:float).with_options(:default => 0.0) }
+
+    it { should_not have_db_column(:remember_token).of_type(:string) }
   end
 
   describe 'indexes' do
