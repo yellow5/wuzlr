@@ -7,6 +7,9 @@ Devise.setup do |config|
   # Limit the time that a password can be reset
   config.reset_password_within = 2.hours
 
+  # Using remember_token is deprecated, instead use the password salt
+  config.use_salt_as_remember_token = true
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
   config.mailer_sender = "noreply@chuzlr.com"
