@@ -25,6 +25,6 @@ group :test do
   gem "mocha"
 end
 
-group :production do
+group :assets do
   gem "uglifier"
 end
