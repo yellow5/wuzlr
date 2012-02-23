@@ -50,7 +50,7 @@ GEM
     haml (3.1.4)
     hike (1.2.1)
     i18n (0.6.0)
-    journey (1.0.2)
+    journey (1.0.3)
     json (1.6.5)
     kgio (2.7.2)
     mail (2.4.1)
@@ -68,7 +68,7 @@ GEM
     parallel_tests (0.6.19)
       parallel
     peterpunk-mhash (0.0.8)
-    pg (0.13.1)
+    pg (0.13.2)
     polyglot (0.3.3)
     pry (0.9.8.2)
       coderay (~> 1.0.5)
