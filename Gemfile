@@ -19,7 +19,7 @@ group :test, :development do
 end
 
 group :test do
-  gem "pry"
+  gem "pry-rails"
   gem "shoulda-matchers"
   gem "fabrication"
   gem "mocha"

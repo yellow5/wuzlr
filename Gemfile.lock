@@ -74,6 +74,8 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.7.1)
       slop (>= 2.4.4, < 3)
+    pry-rails (0.1.6)
+      pry
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -154,7 +156,7 @@ DEPENDENCIES
   parallel_tests
   peterpunk-mhash
   pg
-  pry
+  pry-rails
   rails (= 3.2.3)
   rspec-rails (~> 2.9.0)
   seed-fu (~> 2.2.0)
