@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem "rails",         "3.2.3"
+gem "rails",         "3.2.6"
 gem "devise"
 gem "formtastic",    "~> 2.1.0"
 gem "seed-fu",       "~> 2.2.0"
