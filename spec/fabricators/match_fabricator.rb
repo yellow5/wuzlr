@@ -1,3 +1,3 @@
 Fabricator(:match) do
-  league!
+  league
 end

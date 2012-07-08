@@ -1,4 +1,4 @@
 Fabricator(:league) do
-  user!
+  user
   name { sequence { |i| "League #{i}" } }
 end
