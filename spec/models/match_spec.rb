@@ -89,7 +89,7 @@ describe Match do
           it 'sets started_at to Time.now' do
             expect do
               match.kick_off
-            end.should change { match.started_at }.to(right_now)
+            end.to change { match.started_at }.to(right_now)
           end
         end
       end
@@ -176,7 +176,7 @@ describe Match do
           end
 
           it 'creates match stat for players' do
-            expect { match.record }.should change { match.stats.count }.by(1)
+            expect { match.record }.to change { match.stats.count }.by(1)
             last_stat = match.stats.last
             last_stat.user.should eq(player)
             last_stat.won.should be_true
@@ -200,7 +200,7 @@ describe Match do
           end
 
           it 'creates match stat for players' do
-            expect { match.record }.should change { match.stats.count }.by(1)
+            expect { match.record }.to change { match.stats.count }.by(1)
             last_stat = match.stats.last
             last_stat.user.should eq(player)
             last_stat.won.should be_false
@@ -410,7 +410,7 @@ describe Match do
     subject { match.team_with(user) }
 
     it 'raises an error without an argument' do
-      expect { match.team_with }.should raise_error(ArgumentError)
+      expect { match.team_with }.to raise_error(ArgumentError)
     end
 
     context 'red players include user' do
@@ -443,7 +443,7 @@ describe Match do
     subject { match.team_without(user) }
 
     it 'raises an error without an argument' do
-      expect { match.team_without }.should raise_error(ArgumentError)
+      expect { match.team_without }.to raise_error(ArgumentError)
     end
 
     context 'red players include user' do
@@ -486,7 +486,7 @@ describe Match do
     end
 
     it 'raises an error without an argument' do
-      expect { match.players_for }.should raise_error(ArgumentError)
+      expect { match.players_for }.to raise_error(ArgumentError)
     end
 
     context 'team is red' do
@@ -518,7 +518,7 @@ describe Match do
     end
 
     it 'raises an error without an argument' do
-      expect { match.score_for }.should raise_error(ArgumentError)
+      expect { match.score_for }.to raise_error(ArgumentError)
     end
 
     context 'team is red' do

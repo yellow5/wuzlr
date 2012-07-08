@@ -75,13 +75,13 @@ describe User do
       let(:sprinkles) { 'Michael "Sprinkles" Haskins' }
 
       it 'changes name to Michael "Sprinkles" Haskins' do
-        expect { user.save! }.should change { user.name }.to(sprinkles)
+        expect { user.save! }.to change { user.name }.to(sprinkles)
 
         user.name = 'Michael Haskins'
-        expect { user.save! }.should change { user.name }.to(sprinkles)
+        expect { user.save! }.to change { user.name }.to(sprinkles)
 
         user.name = 'Trololo'
-        expect { user.save! }.should change { user.name }.to(sprinkles)
+        expect { user.save! }.to change { user.name }.to(sprinkles)
       end
     end
   end
@@ -183,11 +183,11 @@ describe User do
     end
 
     it 'increments played' do
-      expect { add_win }.should change { user.reload.played }.by(1)
+      expect { add_win }.to change { user.reload.played }.by(1)
     end
 
     it 'increments won' do
-      expect { add_win }.should change { user.reload.won }.by(1)
+      expect { add_win }.to change { user.reload.won }.by(1)
     end
 
     it 'calculates the win/loss percentage' do
@@ -196,34 +196,34 @@ describe User do
     end
 
     it 'updates last_won_at' do
-      expect { add_win }.should change { user.reload.last_won_at.to_s }.to(match.finished_at.to_s)
+      expect { add_win }.to change { user.reload.last_won_at.to_s }.to(match.finished_at.to_s)
     end
 
     it 'updates last_played_at' do
-      expect { add_win }.should change { user.reload.last_played_at.to_s }.to(match.finished_at.to_s)
+      expect { add_win }.to change { user.reload.last_played_at.to_s }.to(match.finished_at.to_s)
     end
 
     context 'current_streak > longest_winning_streak' do
       it 'updates longest_winning_streak' do
         user.stubs(:winning_streak).returns(42)
-        expect { add_win }.should change { user.reload.longest_winning_streak }.to(42)
+        expect { add_win }.to change { user.reload.longest_winning_streak }.to(42)
       end
     end
 
     context 'current_streak <= longest_winning_streak' do
       it 'does not update longest_winning_streak' do
         user.stubs(:winning_streak).returns(0)
-        expect { add_win }.should_not change { user.reload.longest_winning_streak }
+        expect { add_win }.to_not change { user.reload.longest_winning_streak }
 
         user.stubs(:winning_streak).returns(user.longest_winning_streak)
-        expect { add_win }.should_not change { user.reload.longest_winning_streak }
+        expect { add_win }.to_not change { user.reload.longest_winning_streak }
       end
     end
 
     context 'user stats' do
       context 'without teams' do
         it 'creates stat with other player as opponent with match data' do
-          expect { add_win }.should change { user.reload.stats.count }.by(1)
+          expect { add_win }.to change { user.reload.stats.count }.by(1)
 
           last_stat = user.stats.last
           last_stat.other_user.should eq(other_user)
@@ -243,7 +243,7 @@ describe User do
         end
 
         it 'creates stats for each additional player' do
-          expect { add_win }.should change { user.reload.stats.count }.by(3)
+          expect { add_win }.to change { user.reload.stats.count }.by(3)
         end
 
         it 'create stat with teammate as ally with match data' do
@@ -289,11 +289,11 @@ describe User do
     end
 
     it 'increments played' do
-      expect { add_lost }.should change { user.reload.played }.by(1)
+      expect { add_lost }.to change { user.reload.played }.by(1)
     end
 
     it 'increments lost' do
-      expect { add_lost }.should change { user.reload.lost }.by(1)
+      expect { add_lost }.to change { user.reload.lost }.by(1)
     end
 
     it 'calculates the win/loss percentage' do
@@ -302,34 +302,34 @@ describe User do
     end
 
     it 'updates last_lost_at' do
-      expect { add_lost }.should change { user.reload.last_lost_at.to_s }.to(match.finished_at.to_s)
+      expect { add_lost }.to change { user.reload.last_lost_at.to_s }.to(match.finished_at.to_s)
     end
 
     it 'updates last_played_at' do
-      expect { add_lost }.should change { user.reload.last_played_at.to_s }.to(match.finished_at.to_s)
+      expect { add_lost }.to change { user.reload.last_played_at.to_s }.to(match.finished_at.to_s)
     end
 
     context 'current_streak > longest_losing_streak' do
       it 'updates longest_losing_streak' do
         user.stubs(:losing_streak).returns(42)
-        expect { add_lost }.should change { user.reload.longest_losing_streak }.to(42)
+        expect { add_lost }.to change { user.reload.longest_losing_streak }.to(42)
       end
     end
 
     context 'current_streak <= longest_losing_streak' do
       it 'does not update longest_losing_streak' do
         user.stubs(:losing_streak).returns(0)
-        expect { add_lost }.should_not change { user.reload.longest_losing_streak }
+        expect { add_lost }.to_not change { user.reload.longest_losing_streak }
 
         user.stubs(:losing_streak).returns(user.longest_losing_streak)
-        expect { add_lost }.should_not change { user.reload.longest_losing_streak }
+        expect { add_lost }.to_not change { user.reload.longest_losing_streak }
       end
     end
 
     context 'user stats' do
       context 'without teams' do
         it 'creates stat with other player as opponent with match data' do
-          expect { add_lost }.should change { user.reload.stats.count }.by(1)
+          expect { add_lost }.to change { user.reload.stats.count }.by(1)
 
           last_stat = user.stats.last
           last_stat.other_user.should eq(other_user)
@@ -349,7 +349,7 @@ describe User do
         end
 
         it 'creates stats for each additional player' do
-          expect { add_lost }.should change { user.reload.stats.count }.by(3)
+          expect { add_lost }.to change { user.reload.stats.count }.by(3)
         end
 
         it 'create stat with teammate as ally with match data' do
@@ -525,7 +525,7 @@ describe User do
       user = Fabricate.build(:user, :win_loss_percentage => nil, :won => 7, :lost => 3)
       expect do
         user.calculate_win_loss_percentage
-      end.should change { user.win_loss_percentage }.to(70.0)
+      end.to change { user.win_loss_percentage }.to(70.0)
     end
   end
 
@@ -668,11 +668,11 @@ describe User do
     let(:mock_opponents) { mock('mock_opponents') }
 
     it 'raises an error without any arguments' do
-      expect { user.number_matches_against }.should raise_error(ArgumentError)
+      expect { user.number_matches_against }.to raise_error(ArgumentError)
     end
 
     it 'does not raise an error with one argument' do
-      expect { user.number_matches_against(other_user) }.should_not raise_error(ArgumentError)
+      expect { user.number_matches_against(other_user) }.to_not raise_error(ArgumentError)
     end
 
     it 'returns count of stats where received user is an opponent' do
@@ -690,11 +690,11 @@ describe User do
     let(:mock_allies) { mock('mock_allies') }
 
     it 'raises an error without any arguments' do
-      expect { user.number_matches_with }.should raise_error(ArgumentError)
+      expect { user.number_matches_with }.to raise_error(ArgumentError)
     end
 
     it 'does not raise an error with one argument' do
-      expect { user.number_matches_with(other_user) }.should_not raise_error(ArgumentError)
+      expect { user.number_matches_with(other_user) }.to_not raise_error(ArgumentError)
     end
 
     it 'returns count of stats where received user is an ally' do
@@ -718,7 +718,7 @@ describe User do
 
     context 'without argument' do
       it 'does not raise an error' do
-        expect { user.nemesis }.should_not raise_error(ArgumentError)
+        expect { user.nemesis }.to_not raise_error(ArgumentError)
       end
 
       it 'returns opponent lost to the most in an array' do
@@ -736,7 +736,7 @@ describe User do
 
     context 'with an argument' do
       it 'does not raise an error' do
-        expect { user.nemesis(1) }.should_not raise_error(ArgumentError)
+        expect { user.nemesis(1) }.to_not raise_error(ArgumentError)
       end
 
       it 'returns opponent lost to the most in an array' do
@@ -767,7 +767,7 @@ describe User do
 
     context 'without argument' do
       it 'does not raise an error' do
-        expect { user.walkovers }.should_not raise_error(ArgumentError)
+        expect { user.walkovers }.to_not raise_error(ArgumentError)
       end
 
       it 'returns opponent defeated the most in an array' do
@@ -785,7 +785,7 @@ describe User do
 
     context 'with an argument' do
       it 'does not raise an error' do
-        expect { user.walkovers(1) }.should_not raise_error(ArgumentError)
+        expect { user.walkovers(1) }.to_not raise_error(ArgumentError)
       end
 
       it 'returns opponent defeated the most in an array' do
@@ -816,7 +816,7 @@ describe User do
 
     context 'without argument' do
       it 'does not raise an error' do
-        expect { user.dream_team }.should_not raise_error(ArgumentError)
+        expect { user.dream_team }.to_not raise_error(ArgumentError)
       end
 
       it 'returns teammate with the most wins in an array' do
@@ -834,7 +834,7 @@ describe User do
 
     context 'with an argument' do
       it 'does not raise an error' do
-        expect { user.dream_team(1) }.should_not raise_error(ArgumentError)
+        expect { user.dream_team(1) }.to_not raise_error(ArgumentError)
       end
 
       it 'returns teammate with the most wins in an array' do
@@ -865,7 +865,7 @@ describe User do
 
     context 'without argument' do
       it 'does not raise an error' do
-        expect { user.useless_team }.should_not raise_error(ArgumentError)
+        expect { user.useless_team }.to_not raise_error(ArgumentError)
       end
 
       it 'returns teammate with the most losses in an array' do
@@ -883,7 +883,7 @@ describe User do
 
     context 'with an argument' do
       it 'does not raise an error' do
-        expect { user.useless_team(1) }.should_not raise_error(ArgumentError)
+        expect { user.useless_team(1) }.to_not raise_error(ArgumentError)
       end
 
       it 'returns teammate with the most losses in an array' do

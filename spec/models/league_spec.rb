@@ -48,7 +48,7 @@ describe League do
       end
 
       it 'creates a new league player with user' do
-        expect { league.add_player(user) }.should change(LeaguePlayer, :count).by(1)
+        expect { league.add_player(user) }.to change(LeaguePlayer, :count).by(1)
         league.players.should include(user)
       end
     end
@@ -59,7 +59,7 @@ describe League do
       end
 
       it 'does not create a new league player with user' do
-        expect { league.add_player(user) }.should_not change(LeaguePlayer, :count)
+        expect { league.add_player(user) }.to_not change(LeaguePlayer, :count)
       end
     end
   end
@@ -232,35 +232,35 @@ describe League do
     end
 
     it 'raises an error without arguments' do
-      expect { league.add_win }.should raise_error(ArgumentError, /wrong number of arguments/)
+      expect { league.add_win }.to raise_error(ArgumentError, /wrong number of arguments/)
     end
 
     context 'with existing player stat' do
       let!(:league_stat) { Fabricate(:league_stat, :league => league, :user => user) }
 
       it 'does not create a new league stat record' do
-        expect { do_invoke }.should_not change { league.stats.count }
+        expect { do_invoke }.to_not change { league.stats.count }
       end
 
       it 'increments played count for stat' do
-        expect { do_invoke }.should change { league_stat.reload.played }.by(1)
+        expect { do_invoke }.to change { league_stat.reload.played }.by(1)
       end
 
       it 'increments won count for stat' do
-        expect { do_invoke }.should change { league_stat.reload.won }.by(1)
+        expect { do_invoke }.to change { league_stat.reload.won }.by(1)
       end
 
       it 'updates win_percent for stat' do
-        expect { do_invoke }.should change { league_stat.reload.win_percent }.to(100)
+        expect { do_invoke }.to change { league_stat.reload.win_percent }.to(100)
       end
 
       context 'with finished_at argument' do
         it 'updates last_played_at to received value for stat' do
-          expect { do_invoke }.should change { league_stat.reload.last_played_at.to_s }.to(finished_at.to_s)
+          expect { do_invoke }.to change { league_stat.reload.last_played_at.to_s }.to(finished_at.to_s)
         end
 
         it 'updates last_won_at to received value for stat' do
-          expect { do_invoke }.should change { league_stat.reload.last_won_at.to_s }.to(finished_at.to_s)
+          expect { do_invoke }.to change { league_stat.reload.last_won_at.to_s }.to(finished_at.to_s)
         end
       end
 
@@ -270,11 +270,11 @@ describe League do
         before { Time.stubs(:now).returns(right_now) }
 
         it 'updates last_played_at to Time.now for stat' do
-          expect { league.add_win(user) }.should change { league_stat.reload.last_played_at.to_s }.to(right_now.to_s)
+          expect { league.add_win(user) }.to change { league_stat.reload.last_played_at.to_s }.to(right_now.to_s)
         end
 
         it 'updates last_won_at to Time.now for stat' do
-          expect { league.add_win(user) }.should change { league_stat.reload.last_won_at.to_s }.to(right_now.to_s)
+          expect { league.add_win(user) }.to change { league_stat.reload.last_won_at.to_s }.to(right_now.to_s)
         end
       end
 
@@ -282,7 +282,7 @@ describe League do
         before { league_stat.update_attributes!(:longest_winning_streak => 0) }
 
         it 'updates longest_winning_streak for stat' do
-          expect { do_invoke }.should change { league_stat.reload.longest_winning_streak }.to(1)
+          expect { do_invoke }.to change { league_stat.reload.longest_winning_streak }.to(1)
         end
       end
 
@@ -290,7 +290,7 @@ describe League do
         before { league_stat.update_attributes!(:longest_winning_streak => 10) }
 
         it 'does not change longest_winning_streak for stat' do
-          expect { do_invoke }.should_not change { league_stat.reload.longest_winning_streak }
+          expect { do_invoke }.to_not change { league_stat.reload.longest_winning_streak }
         end
       end
     end
@@ -299,7 +299,7 @@ describe League do
       let(:newest_league_stat) { league.stats.last }
 
       it 'creates a new league stat record for player' do
-        expect { do_invoke }.should change { league.stats.count }.by(1)
+        expect { do_invoke }.to change { league.stats.count }.by(1)
         newest_league_stat.user.should eq(user)
       end
 
@@ -363,46 +363,46 @@ describe League do
     end
 
     it 'raises an error without arguments' do
-      expect { league.add_lost }.should raise_error(ArgumentError, /wrong number of arguments/)
+      expect { league.add_lost }.to raise_error(ArgumentError, /wrong number of arguments/)
     end
 
     it 'raises an error with one argument' do
-      expect { league.add_lost(user) }.should raise_error(ArgumentError, /wrong number of arguments/)
+      expect { league.add_lost(user) }.to raise_error(ArgumentError, /wrong number of arguments/)
     end
 
     context 'with existing player stat' do
       let!(:league_stat) { Fabricate(:league_stat, :league => league, :user => user) }
 
       it 'does not create a new league stat record' do
-        expect { do_invoke }.should_not change { league.stats.count }
+        expect { do_invoke }.to_not change { league.stats.count }
       end
 
       it 'increments played count for stat' do
-        expect { do_invoke }.should change { league_stat.reload.played }.by(1)
+        expect { do_invoke }.to change { league_stat.reload.played }.by(1)
       end
 
       it 'increments lost count for stat' do
-        expect { do_invoke }.should change { league_stat.reload.lost }.by(1)
+        expect { do_invoke }.to change { league_stat.reload.lost }.by(1)
       end
 
       it 'updates win_percent for stat' do
         league_stat.update_attributes!(:played => 1, :won => 1, :win_percent => 100)
-        expect { do_invoke }.should change { league_stat.reload.win_percent }.to(50)
+        expect { do_invoke }.to change { league_stat.reload.win_percent }.to(50)
       end
 
       it 'updates last_played_at for stat' do
-        expect { do_invoke }.should change { league_stat.reload.last_played_at.to_s }.to(finished_at.to_s)
+        expect { do_invoke }.to change { league_stat.reload.last_played_at.to_s }.to(finished_at.to_s)
       end
 
       it 'updates last_lost_at for stat' do
-        expect { do_invoke }.should change { league_stat.reload.last_lost_at.to_s }.to(finished_at.to_s)
+        expect { do_invoke }.to change { league_stat.reload.last_lost_at.to_s }.to(finished_at.to_s)
       end
 
       context 'stat.losing_streak > stat.longest_losing_streak' do
         before { league_stat.update_attributes!(:longest_losing_streak => 0) }
 
         it 'updates longest_losing_streak for stat' do
-          expect { do_invoke }.should change { league_stat.reload.longest_losing_streak }.to(1)
+          expect { do_invoke }.to change { league_stat.reload.longest_losing_streak }.to(1)
         end
       end
 
@@ -410,7 +410,7 @@ describe League do
         before { league_stat.update_attributes!(:longest_losing_streak => 10) }
 
         it 'does not change longest_losing_streak for stat' do
-          expect { do_invoke }.should_not change { league_stat.reload.longest_losing_streak }
+          expect { do_invoke }.to_not change { league_stat.reload.longest_losing_streak }
         end
       end
     end
@@ -419,7 +419,7 @@ describe League do
       let(:newest_league_stat) { league.stats.last }
 
       it 'creates a new league stat record for player' do
-        expect { do_invoke }.should change { league.stats.count }.by(1)
+        expect { do_invoke }.to change { league.stats.count }.by(1)
         newest_league_stat.user.should eq(user)
       end
 

@@ -13,7 +13,7 @@ gem "gravatar_image_tag"
 gem "dynamic_form"
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.10.0"
+  gem "rspec-rails", "~> 2.11.0"
   gem "parallel_tests"
 end
 
