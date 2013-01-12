@@ -157,7 +157,7 @@ DEPENDENCIES
   peterpunk-mhash
   pg
   pry-rails
-  rails (= 3.2.6)
+  rails (~> 3.2.6)
   rspec-rails (~> 2.11.0)
   seed-fu (~> 2.2.0)
   shoulda-matchers
